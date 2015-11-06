@@ -13,7 +13,7 @@ public class YahooWeather implements WeatherServiceInterface {
     String result;
 
     @Override
-    public String getCurrentWeather(final String place) {
+    public WeatherEntity getCurrentWeather(final String place) {
         try {
             String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\")", place);
             String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
@@ -27,8 +27,8 @@ public class YahooWeather implements WeatherServiceInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //TODO: parse result and create class with data (Class will be created by Max)
-        return "Weather in " + place + " is: " + result;
+        //TODO: parse result and fill the class with data
+        return new WeatherEntity(null, null, 0, 0, null);
     }
 
 

@@ -31,15 +31,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get weather from Yahoo and show it
                 WeatherServiceInterface yahooWeather = new YahooWeather();
-                String weather = yahooWeather.getCurrentWeather(place);
-                Toast.makeText(getApplicationContext(), weather, Toast.LENGTH_LONG).show();
+                WeatherEntity weather = yahooWeather.getCurrentWeather(place);
+                // TODO: fill lables that will be made by Vlad with data from the class
+                Toast.makeText(getApplicationContext(), "Make lables here ^", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the fnu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
