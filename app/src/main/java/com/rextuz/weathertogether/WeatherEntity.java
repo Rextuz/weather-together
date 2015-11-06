@@ -3,25 +3,100 @@ package com.rextuz.weathertogether;
 import java.util.Date;
 
 public class WeatherEntity {
-    private String place;
-    private Date date;
-    private int temperature;
-    private int wind_speed;
-    private String wind_direction;
+    //location
+    private String city;
+    private String country;
+    private String region;
 
-    WeatherEntity(String place, Date date, int temperature, int wind_speed, String wind_direction) {
-        this.place = place;
+    //units
+    private String pressureUnit;
+    private String speedUnit;
+    private String temperatureUnit;
+
+    //wind
+    private int direction;
+    private int speed;
+
+    //atmosphere
+    private int humidity;
+    private int pressure;
+
+    //astronomy
+    private String sunrise;//Need change to Date
+    private String sunset;//Need change to Date
+
+    //condition
+    private String date;//Need change to Date
+    private int temperature;
+    private String text;
+
+    public WeatherEntity(String city, String country, String region, String pressureUnit, String speedUnit, String temperatureUnit, int direction, int speed, int humidity, int pressure, String sunrise, String sunset, String date, int temperature, String text) {
+        this.city = city;
+        this.country = country;
+        this.region = region;
+        this.pressureUnit = pressureUnit;
+        this.speedUnit = speedUnit;
+        this.temperatureUnit = temperatureUnit;
+        this.direction = direction;
+        this.speed = speed;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        this.sunrise = sunrise;
+        this.sunset = sunset;
         this.date = date;
         this.temperature = temperature;
-        this.wind_speed = wind_speed;
-        this.wind_direction = wind_direction;
+        this.text = text;
     }
 
-    public String getPlace() {
-        return place;
+    public String getCity() {
+        return city;
     }
 
-    public Date getDate() {
+    public String getCountry() {
+        return country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getPressureUnit() {
+        return pressureUnit;
+    }
+
+    public String getSpeedUnit() {
+        return speedUnit;
+    }
+
+    public String getTemperatureUnit() {
+        return temperatureUnit;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public int getPressure() {
+        return pressure;
+    }
+
+    public String getSunrise() {
+        return sunrise;
+    }
+
+    public String getSunset() {
+        return sunset;
+    }
+
+    public String getDate() {
         return date;
     }
 
@@ -29,11 +104,7 @@ public class WeatherEntity {
         return temperature;
     }
 
-    public int getWind_speed() {
-        return wind_speed;
-    }
-
-    public String getWind_direction() {
-        return wind_direction;
+    public String getText() {
+        return text;
     }
 }

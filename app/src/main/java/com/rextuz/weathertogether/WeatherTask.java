@@ -10,9 +10,9 @@ import java.net.URLConnection;
 
 public class WeatherTask extends AsyncTask<Void, Void, String> {
 
-    String request;
+    private String request;
 
-    WeatherTask(String task) {
+    public WeatherTask(String task) {
         request = task;
     }
 
@@ -24,10 +24,12 @@ public class WeatherTask extends AsyncTask<Void, Void, String> {
             URLConnection connection = url.openConnection();
             InputStream inputStream = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder builder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                result += line;
+                builder.append(line);
             }
+            result = builder.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
