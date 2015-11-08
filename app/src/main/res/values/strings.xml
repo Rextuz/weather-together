@@ -2,4 +2,12 @@
     <string name="app_name">Weather Together</string>
     <string name="action_settings">Settings</string>
     <string name="go">Go!</string>
+    <string name="gradus">42°C</string>
+    <string name="city">Chosen City</string>
+    <string name="humidity_label">Humidity</string>
+    <string name="humidity_value">70%</string>
+    <string name="windspeed_label">Wind Speed</string>
+    <string name="windspeed">2 m/s</string>
+    <string name="pressure_label">Pressure</string>
+    <string name="pressure_value">1024 mbar</string>
 </resources>
