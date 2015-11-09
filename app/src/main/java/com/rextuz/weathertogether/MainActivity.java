@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +32,16 @@ public class MainActivity extends AppCompatActivity {
                 // Get weather from Yahoo and show it
                 WeatherServiceInterface yahooWeather = new YahooWeather();
                 WeatherEntity weather = yahooWeather.getCurrentWeather(place);
-                // TODO: fill lables that will be made by Vlad with data from the class
-                Toast.makeText(getApplicationContext(), "Make lables here ^", Toast.LENGTH_LONG).show();
+                ((TextView) findViewById(R.id.city)).setText(weather.getCity());
+                ((TextView) findViewById(R.id.temperature)).setText(weather.getTemperature() + weather.getTemperatureUnit());
+                String countryRegion = weather.getCountry();
+                if (!weather.getRegion().isEmpty())
+                    countryRegion += ", " + weather.getRegion();
+                ((TextView) findViewById(R.id.textView)).setText(countryRegion);
+                ((TextView) findViewById(R.id.humanity_value)).setText(weather.getHumidity() + "%");
+                ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed() + " " + weather.getSpeedUnit());
+                ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure() + " " + weather.getPressureUnit());
+                findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
     }
