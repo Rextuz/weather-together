@@ -1,5 +1,6 @@
-package com.rextuz.weathertogether;
+package com.rextuz.weathertogether.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.WeatherEntity;
+import com.rextuz.weathertogether.WeatherServiceInterface;
+import com.rextuz.weathertogether.YahooWeather;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.humanity_value)).setText(weather.getHumidity() + "%");
                 ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed() + " " + weather.getSpeedUnit());
                 ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure() + " " + weather.getPressureUnit());
-                findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
+                // TODO: Usless data invisibility. Loading animations.
+                // findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
     }
@@ -58,17 +65,17 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_exit:
+                finish();
+                return true;
+            default:
+                return false;
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onClick(View view) {
-
     }
 }

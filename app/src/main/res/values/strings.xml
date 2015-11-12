@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weather Together</string>
     <string name="action_settings">Settings</string>
+    <string name="action_exit">Exit</string>
     <string name="go">Go!</string>
     <string name="gradus">42°C</string>
     <string name="city">Chosen City</string>
