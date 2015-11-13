@@ -1,6 +1,8 @@
 package com.rextuz.weathertogether.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.WeatherEntity;
@@ -35,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String place = editText.getText().toString();
 
+                // TODO: call getters with units
+                // Get temperature units
+                SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
+                sf.getString("temperature_units", "C");
+
                 // Get weather from Yahoo and show it
                 WeatherServiceInterface yahooWeather = new YahooWeather();
                 WeatherEntity weather = yahooWeather.getCurrentWeather(place);
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.humanity_value)).setText(weather.getHumidity() + "%");
                 ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed() + " " + weather.getSpeedUnit());
                 ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure() + " " + weather.getPressureUnit());
+
                 // TODO: Usless data invisibility. Loading animations.
                 // findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
