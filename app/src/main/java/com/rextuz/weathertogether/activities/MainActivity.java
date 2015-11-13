@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     countryRegion += ", " + weather.getRegion();
                 ((TextView) findViewById(R.id.textView)).setText(countryRegion);
                 ((TextView) findViewById(R.id.humanity_value)).setText(weather.getHumidity() + "%");
-                ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed() + " " + weather.getSpeedUnit());
-                ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure() + " " + weather.getPressureUnit());
+                ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed("m/s") + " " + "m/s");
+                ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure("mmHg") + " " + "mmHg");
 
                 // TODO: Usless data invisibility. Loading animations.
                 // findViewById(R.id.info_layout).setVisibility(View.VISIBLE);

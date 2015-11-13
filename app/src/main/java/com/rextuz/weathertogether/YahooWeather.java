@@ -27,11 +27,11 @@ public class YahooWeather implements WeatherServiceInterface {
     private int pressure;
 
     //astronomy
-    private String sunrise;//Need change to Date
-    private String sunset;//Need change to Date
+    private String sunrise;
+    private String sunset;
 
     //condition
-    private String date;//Need change to Date
+    private String date;
     private int temperature;
     private String text;
 
@@ -74,12 +74,12 @@ public class YahooWeather implements WeatherServiceInterface {
 
             //astronomy
             JSONObject astronomy = channel.optJSONObject("astronomy");
-            sunrise = astronomy.optString("sunrise");//Need change to Date
-            sunset = astronomy.optString("sunset");//Need change to Date
+            sunrise = astronomy.optString("sunrise");
+            sunset = astronomy.optString("sunset");
 
             //condition
             JSONObject condition = channel.optJSONObject("item").optJSONObject("condition");
-            date = condition.optString("date");//Need change to Date
+            date = condition.optString("date");
             temperature = condition.optInt("temp");
             text = condition.optString("text");
 

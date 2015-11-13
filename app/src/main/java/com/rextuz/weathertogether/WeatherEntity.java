@@ -20,11 +20,11 @@ public class WeatherEntity {
     private int pressure;
 
     //astronomy
-    private String sunrise;//Need change to Date
-    private String sunset;//Need change to Date
+    private String sunrise;
+    private String sunset;
 
     //condition
-    private String date;//Need change to Date
+    private String date;
     private int temperature;
     private String text;
 
@@ -66,20 +66,84 @@ public class WeatherEntity {
         return speedUnit;
     }
 
-    public int getDirection() {
-        return direction;
+    public String getTemperatureUnit() {
+        return temperatureUnit;
     }
 
-    public int getSpeed() {
-        return speed;
+    public String getDirection() {
+        String windDirection;
+        if (((direction >= 0) && (direction <= 11.25)) || ((direction > 348.75) && (direction <= 360)));
+            windDirection = "S";
+        if ((direction > 11.25) && (direction <= 33.75))
+            windDirection = "SSW";
+        if ((direction > 33.75) && (direction <= 56.25))
+            windDirection = "SW";
+        if ((direction > 56.25) && (direction <= 78.75))
+            windDirection = "WSW";
+        if ((direction > 78.75) && (direction <= 101.25))
+            windDirection = "W";
+        if ((direction > 101.25) && (direction <= 123.75))
+            windDirection = "WNW";
+        if ((direction > 123.75) && (direction <= 146.25))
+            windDirection = "NW";
+        if ((direction > 146.25) && (direction <= 168.75))
+            windDirection = "NNW";
+        if ((direction > 168.75) && (direction <= 191.25))
+            windDirection = "N";
+        if ((direction > 191.25) && (direction <= 213.75))
+            windDirection = "NNE";
+        if ((direction > 213.75) && (direction <= 236.25))
+            windDirection = "NE";
+        if ((direction > 236.25) && (direction <= 258.75))
+            windDirection = "ENE";
+        if ((direction > 258.75) && (direction <= 281.25))
+            windDirection = "E";
+        if ((direction > 281.25) && (direction <= 303.75))
+            windDirection = "ESE";
+        if ((direction > 303.75) && (direction <= 326.25))
+            windDirection = "SE";
+        if ((direction > 326.25) && (direction <= 348.75))
+            windDirection = "SSE";
+        return windDirection;
+    }
+
+    public int getSpeed(String unit) {
+        switch(unit) {
+            //Kilometers per hour
+            case "km/h":
+                return speed;
+            //Miles per hour
+            case "mph":
+                return (int) Math.round((double) speed * 0.621371);
+            //Meters per second
+            case "m/s":
+                return (int) Math.round((double) speed * 1000 / 3600);
+            default:
+                return speed;
+        }
     }
 
     public int getHumidity() {
         return humidity;
     }
 
-    public int getPressure() {
-        return pressure;
+    public int getPressure(String unit) {
+        switch(unit) {
+            //Millibars
+            case "mb":
+                return pressure;
+            //Inches of mercury
+            case "in":
+                return (int) Math.round((double) pressure * 0.02953);
+            //Hectopascals(same as mb)
+            case "hpa":
+                return pressure;
+            //Millimeters of mercury
+            case "mmHg":
+                return (int) Math.round((double) pressure * 0.750062);
+            default:
+                return pressure;
+        }
     }
 
     public String getSunrise() {
@@ -94,12 +158,15 @@ public class WeatherEntity {
         return date;
     }
 
-    public int getTemperature(String units) {
-        switch (units) {
+    public int getTemperature(String unit) {
+        switch (unit) {
+            //Celsius
             case "C":
                 return temperature;
+            //Fahrenheit
             case "F":
-                return temperature * 9 / 5 + 32;
+                return (int) Math.round((double) temperature * 9 / 5) + 32;
+            //Kelvin
             case "K":
                 return temperature + 273;
             default:
