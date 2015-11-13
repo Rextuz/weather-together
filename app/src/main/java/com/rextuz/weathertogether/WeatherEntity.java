@@ -1,7 +1,5 @@
 package com.rextuz.weathertogether;
 
-import java.util.Date;
-
 public class WeatherEntity {
     //location
     private String city;
@@ -68,10 +66,6 @@ public class WeatherEntity {
         return speedUnit;
     }
 
-    public String getTemperatureUnit() {
-        return temperatureUnit;
-    }
-
     public int getDirection() {
         return direction;
     }
@@ -100,8 +94,17 @@ public class WeatherEntity {
         return date;
     }
 
-    public int getTemperature() {
-        return temperature;
+    public int getTemperature(String units) {
+        switch (units) {
+            case "C":
+                return temperature;
+            case "F":
+                return temperature * 9 / 5 + 32;
+            case "K":
+                return temperature + 273;
+            default:
+                return temperature;
+        }
     }
 
     public String getText() {

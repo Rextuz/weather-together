@@ -37,8 +37,8 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:layout_width="200dp"
-        android:layout_height="125dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/gradus"
         android:id="@+id/temperature"
@@ -50,7 +50,7 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_alignTop="@+id/temperature"
         android:layout_toRightOf="@+id/temperature"

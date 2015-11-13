@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.WeatherEntity;
@@ -29,25 +28,31 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Place text edit
-        final EditText editText = (EditText) findViewById(R.id.editText);
+        final EditText editTextPlace = (EditText) findViewById(R.id.editText);
 
         // Get weather button
         Button getWeatherButton = (Button) findViewById(R.id.button);
         getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String place = editText.getText().toString();
+                String place = editTextPlace.getText().toString();
 
                 // TODO: call getters with units
                 // Get temperature units
                 SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
-                sf.getString("temperature_units", "C");
+                String units = sf.getString("temperature_units", "C");
 
                 // Get weather from Yahoo and show it
                 WeatherServiceInterface yahooWeather = new YahooWeather();
                 WeatherEntity weather = yahooWeather.getCurrentWeather(place);
                 ((TextView) findViewById(R.id.city)).setText(weather.getCity());
-                ((TextView) findViewById(R.id.temperature)).setText(weather.getTemperature() + weather.getTemperatureUnit());
+
+                // Temperature
+                String temperature = units;
+                if (!units.equals("K"))
+                    temperature = "°" + temperature;
+                ((TextView) findViewById(R.id.temperature)).setText(weather.getTemperature(units) + temperature);
+
                 String countryRegion = weather.getCountry();
                 if (!weather.getRegion().isEmpty())
                     countryRegion += ", " + weather.getRegion();
@@ -67,6 +72,15 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the fnu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EditText editTextPlace = (EditText) findViewById(R.id.editText);
+        Button getWeatherButton = (Button) findViewById(R.id.button);
+        if (!editTextPlace.getText().toString().isEmpty())
+            getWeatherButton.callOnClick();
     }
 
     @Override
