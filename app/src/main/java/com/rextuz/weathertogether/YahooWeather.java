@@ -2,43 +2,47 @@ package com.rextuz.weathertogether;
 
 import android.net.Uri;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class YahooWeather implements WeatherServiceInterface {
     //all data
     private String result;
 
-    //location
-    private String city;
-    private String country;
-    private String region;
-
-    //units
-    private String pressureUnit;
-    private String speedUnit;
-    private String temperatureUnit;
-
-    //wind
-    private int direction;
-    private int speed;
-
-    //atmosphere
-    private int humidity;
-    private int pressure;
-
-    //astronomy
-    private String sunrise;//Need change to Date
-    private String sunset;//Need change to Date
-
-    //condition
-    private String date;//Need change to Date
-    private int temperature;
-    private String text;
-
     @Override
     public WeatherEntity getCurrentWeather(final String place) {
+        //location
+        String city;
+        String country;
+        String region;
+
+        //units
+        String pressureUnit;
+        String speedUnit;
+        String temperatureUnit;
+
+        //wind
+        int direction;
+        int speed;
+
+        //atmosphere
+        int humidity;
+        int pressure;
+
+        //astronomy
+        String sunrise;
+        String sunset;
+
+        //condition
+        String date;
+        int temperature;
+        String text;
+
         try {
-            String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\")", place);
+            String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
             String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
 
             result = new WeatherTask(endpoint).execute().get();
@@ -74,39 +78,122 @@ public class YahooWeather implements WeatherServiceInterface {
 
             //astronomy
             JSONObject astronomy = channel.optJSONObject("astronomy");
-            sunrise = astronomy.optString("sunrise");//Need change to Date
-            sunset = astronomy.optString("sunset");//Need change to Date
+            sunrise = astronomy.optString("sunrise");
+            sunset = astronomy.optString("sunset");
 
             //condition
             JSONObject condition = channel.optJSONObject("item").optJSONObject("condition");
-            date = condition.optString("date");//Need change to Date
+            date = condition.optString("date");
             temperature = condition.optInt("temp");
             text = condition.optString("text");
+
+            /*
+            System.out.println(result);
+
+            System.out.println(city);
+            System.out.println(country);
+            System.out.println(region);
+            System.out.println(pressureUnit);
+            System.out.println(speedUnit);
+            System.out.println(temperatureUnit);
+            System.out.println(direction);
+            System.out.println(speed);
+            System.out.println(humidity);
+            System.out.println(pressure);
+            System.out.println(sunrise);
+            System.out.println(sunset);
+            System.out.println(date);
+            System.out.println(temperature);
+            System.out.println(text);
+            */
+            return new WeatherEntity(city, country, region, pressureUnit, speedUnit, temperatureUnit, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        /*
-        System.out.println(result);
+        return null;
+    }
 
-        System.out.println(city);
-        System.out.println(country);
-        System.out.println(region);
-        System.out.println(pressureUnit);
-        System.out.println(speedUnit);
-        System.out.println(temperatureUnit);
-        System.out.println(direction);
-        System.out.println(speed);
-        System.out.println(humidity);
-        System.out.println(pressure);
-        System.out.println(sunrise);
-        System.out.println(sunset);
-        System.out.println(date);
-        System.out.println(temperature);
-        System.out.println(text);
-        */
+    @Override
+    public List<ShortWeatherEntity> getWeatherForecast(final String place) {
+        //location
+        String city;
+        String country;
+        String region;
 
-        return new WeatherEntity(city, country, region, pressureUnit, speedUnit, temperatureUnit, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
+        //units
+        String pressureUnit;
+        String speedUnit;
+        String temperatureUnit;
+
+        //forecast
+        String date;
+        String text;
+        int high;
+        int low;
+
+        //list with forecast
+        List<ShortWeatherEntity> list = new ArrayList<ShortWeatherEntity>();
+
+        try {
+            String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
+            String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
+
+            result = new WeatherTask(endpoint).execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONObject data = new JSONObject(result);
+            JSONObject channel = data.optJSONObject("query").optJSONObject("results").optJSONObject("channel");
+
+            //location
+            JSONObject location = channel.optJSONObject("location");
+            city = location.optString("city");
+            country = location.optString("country");
+            region = location.optString("region");
+
+            //units
+            JSONObject units = channel.optJSONObject("units");
+            pressureUnit = units.getString("pressure");
+            speedUnit = units.getString("speed");
+            temperatureUnit = units.getString("temperature");
+
+            //forecast
+            JSONArray forecast = channel.optJSONObject("item").optJSONArray("forecast");
+            for (int i = 0; i < forecast.length(); i++) {
+                JSONObject day = forecast.optJSONObject(i);
+                date = day.optString("date");
+                text = day.optString("text");
+                high = day.optInt("high");
+                low = day.optInt("low");
+
+                /*
+                System.out.println(i + " " + city);
+                System.out.println(i + " " + country);
+                System.out.println(i + " " + region);
+                System.out.println(i + " " + pressureUnit);
+                System.out.println(i + " " + speedUnit);
+                System.out.println(i + " " + temperatureUnit);
+                System.out.println(i + " " + date);
+                System.out.println(i + " " + text);
+                System.out.println(i + " " + high);
+                System.out.println(i + " " + low);
+                */
+
+                list.add(i, new ShortWeatherEntity(city, country, region, pressureUnit, speedUnit, temperatureUnit, date, text, high, low));
+            }
+
+            return list;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
+
+
