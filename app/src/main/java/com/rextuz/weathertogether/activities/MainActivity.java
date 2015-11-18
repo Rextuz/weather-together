@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.rextuz.weathertogether.OpenWeatherMap;
 import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.ShortWeatherEntity;
 import com.rextuz.weathertogether.WeatherEntity;
@@ -48,7 +49,15 @@ public class MainActivity extends AppCompatActivity {
                 // Get weather from Yahoo and show it
                 WeatherServiceInterface yahooWeather = new YahooWeather();
                 WeatherEntity weather = yahooWeather.getCurrentWeather(place);
+
+                /*
                 List<ShortWeatherEntity> list = yahooWeather.getWeatherForecast(place);
+
+                WeatherServiceInterface openWeatherMap = new OpenWeatherMap();
+                WeatherEntity weather2 = openWeatherMap.getCurrentWeather(place);
+                List<ShortWeatherEntity> list2 = openWeatherMap.getWeatherForecast(place);
+                */
+
                 ((TextView) findViewById(R.id.city)).setText(weather.getCity());
 
                 // Temperature

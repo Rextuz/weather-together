@@ -6,11 +6,6 @@ public class WeatherEntity {
     private String country;
     private String region;
 
-    //units
-    private String pressureUnit;
-    private String speedUnit;
-    private String temperatureUnit;
-
     //wind
     private int direction;
     private int speed;
@@ -28,13 +23,10 @@ public class WeatherEntity {
     private int temperature;
     private String text;
 
-    public WeatherEntity(String city, String country, String region, String pressureUnit, String speedUnit, String temperatureUnit, int direction, int speed, int humidity, int pressure, String sunrise, String sunset, String date, int temperature, String text) {
+    public WeatherEntity(String city, String country, String region, int direction, int speed, int humidity, int pressure, String sunrise, String sunset, String date, int temperature, String text) {
         this.city = city;
         this.country = country;
         this.region = region;
-        this.pressureUnit = pressureUnit;
-        this.speedUnit = speedUnit;
-        this.temperatureUnit = temperatureUnit;
         this.direction = direction;
         this.speed = speed;
         this.humidity = humidity;
@@ -56,18 +48,6 @@ public class WeatherEntity {
 
     public String getRegion() {
         return region;
-    }
-
-    public String getPressureUnit() {
-        return pressureUnit;
-    }
-
-    public String getSpeedUnit() {
-        return speedUnit;
-    }
-
-    public String getTemperatureUnit() {
-        return temperatureUnit;
     }
 
     public String getDirection() {
