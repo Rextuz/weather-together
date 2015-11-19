@@ -50,12 +50,12 @@ public class OpenWeatherMap implements WeatherServiceInterface {
             region = null;
 
             //wind
-            direction = data.optJSONObject("wind").optInt("deg");
-            speed = (int) Math.round((double) data.optJSONObject("wind").optInt("speed") * 3600 / 1000);
+            direction = (int) Math.round(data.optJSONObject("wind").optDouble("deg"));
+            speed = (int) Math.round(data.optJSONObject("wind").optDouble("speed") * 3600 / 1000);
 
             //atmosphere
             humidity = data.optJSONObject("main").optInt("humidity");
-            pressure = data.optJSONObject("main").optInt("pressure");
+            pressure = (int) Math.round(data.optJSONObject("main").optDouble("pressure"));
 
             //astronomy
             sunrise = data.optJSONObject("sys").optString("sunrise");
@@ -63,7 +63,7 @@ public class OpenWeatherMap implements WeatherServiceInterface {
 
             //condition
             date = data.optString("dt");
-            temperature = data.optJSONObject("main").optInt("temp");
+            temperature = (int) Math.round(data.optJSONObject("main").optDouble("temp"));
             text = data.optJSONArray("weather").optJSONObject(0).optString("main");
 
             /*
