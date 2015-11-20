@@ -13,14 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.rextuz.weathertogether.OpenWeatherMap;
 import com.rextuz.weathertogether.R;
-import com.rextuz.weathertogether.ShortWeatherEntity;
-import com.rextuz.weathertogether.WeatherEntity;
-import com.rextuz.weathertogether.WeatherServiceInterface;
-import com.rextuz.weathertogether.YahooWeather;
-
-import java.util.List;
+import com.rextuz.weathertogether.Enitites.WeatherEntity;
+import com.rextuz.weathertogether.services.WeatherServiceInterface;
+import com.rextuz.weathertogether.services.YahooWeather;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Hide null weather
+        findViewById(R.id.info_layout).setVisibility(View.INVISIBLE);
 
         // Place text edit
         final EditText editTextPlace = (EditText) findViewById(R.id.editText);
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure("mmHg") + " " + "mmHg");
 
                 // TODO: Usless data invisibility. Loading animations.
-                // findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
+                findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
     }

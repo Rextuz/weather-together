@@ -1,193 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:clickable="true">
+    tools:showIn="@layout/activity_main">
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:id="@+id/editText"
-        android:layout_marginTop="46dp"
-        android:inputType="text"
-        android:background="@color/color_main"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="46dp"
         android:layout_toLeftOf="@+id/button"
         android:layout_toStartOf="@+id/button"
-        android:autoText="false" />
+        android:autoText="false"
+        android:background="@color/color_main"
+        android:inputType="text" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:text="@string/go"
-        android:id="@+id/button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/editText"
         android:background="@android:color/holo_blue_dark"
         android:onClick="onClick"
-        android:layout_alignTop="@+id/editText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="@string/go" />
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/info_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/pressure_label"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/editText">
 
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="125dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/gradus"
-            android:id="@+id/temperature"
-            android:textSize="122sp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:layout_marginTop="67dp"
-            android:layout_below="@+id/city"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="125dp"
-            android:id="@+id/imageView"
-            android:layout_alignTop="@+id/temperature"
-            android:layout_toRightOf="@+id/temperature"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/windy" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Chosen City"
-            android:id="@+id/city"
-            android:layout_below="@+id/editText"
-            android:layout_alignLeft="@+id/temperature"
-            android:layout_alignStart="@+id/temperature"
-            android:layout_marginTop="15dp"
-            android:layout_toStartOf="@+id/button"
-            android:layout_toLeftOf="@+id/button"
-            android:textSize="35sp"
-            android:textIsSelectable="true"
-            android:textAlignment="center"
-            android:singleLine="false"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/pressure_label"
+            android:layout_below="@+id/editText">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/textView"
-            android:text="Country, region"
-            android:textSize="18sp"
-            android:textAlignment="center"
-            android:layout_below="@+id/city"
-            android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/city"
+                android:layout_marginTop="67dp"
+                android:text="@string/gradus"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="122sp" />
 
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="30dp"
-            android:text="@string/humidity_label"
-            android:id="@+id/humidity_label"
-            android:layout_below="@+id/temperature"
-            android:layout_alignLeft="@+id/temperature"
-            android:layout_alignStart="@+id/temperature"
-            android:layout_marginTop="15dp"
-            android:singleLine="false"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:background="@color/units_table_row1"
-            android:layout_alignParentBottom="false"
-            android:paddingTop="2sp"
-            android:paddingLeft="8sp" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="125dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/temperature"
+                android:layout_toRightOf="@+id/temperature"
+                android:src="@drawable/windy" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="@string/humidity_value"
-            android:id="@+id/humanity_value"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:background="@color/units_table_row1"
-            android:layout_alignBottom="@+id/humidity_label"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/humidity_label"
-            android:layout_toEndOf="@+id/humidity_label"
-            android:textAlignment="center" />
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignLeft="@+id/temperature"
+                android:layout_alignStart="@+id/temperature"
+                android:layout_below="@+id/editText"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@+id/button"
+                android:layout_toStartOf="@+id/button"
+                android:singleLine="false"
+                android:text="Chosen City"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textIsSelectable="true"
+                android:textSize="35sp" />
 
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="30dp"
-            android:text="@string/windspeed_label"
-            android:id="@+id/windspeed_label"
-            android:singleLine="false"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:layout_below="@+id/humidity_label"
-            android:layout_alignLeft="@+id/humidity_label"
-            android:layout_alignStart="@+id/humidity_label"
-            android:background="@color/color_main"
-            android:paddingLeft="8sp"
-            android:paddingTop="2sp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/city"
+                android:layout_centerHorizontal="true"
+                android:text="Country, region"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="@string/windspeed"
-            android:id="@+id/windspeed_value"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:background="@color/color_main"
-            android:textAlignment="center"
-            android:layout_below="@+id/humidity_label"
-            android:layout_toRightOf="@+id/windspeed_label"
-            android:layout_toEndOf="@+id/windspeed_label" />
+            <TextView
+                android:id="@+id/humidity_label"
+                android:layout_width="260dp"
+                android:layout_height="30dp"
+                android:layout_alignLeft="@+id/temperature"
+                android:layout_alignParentBottom="false"
+                android:layout_alignStart="@+id/temperature"
+                android:layout_below="@+id/temperature"
+                android:layout_marginTop="15dp"
+                android:background="@color/units_table_row1"
+                android:paddingLeft="8sp"
+                android:paddingTop="2sp"
+                android:singleLine="false"
+                android:text="@string/humidity_label"
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="230dp"
-            android:layout_height="30dp"
-            android:text="@string/pressure_label"
-            android:id="@+id/pressure_label"
-            android:singleLine="false"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:background="@color/units_table_row1"
-            android:layout_below="@+id/windspeed_label"
-            android:layout_alignLeft="@+id/windspeed_label"
-            android:layout_alignStart="@+id/windspeed_label"
-            android:paddingLeft="8sp"
-            android:paddingTop="2sp" />
+            <TextView
+                android:id="@+id/humanity_value"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@+id/humidity_label"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_toEndOf="@+id/humidity_label"
+                android:layout_toRightOf="@+id/humidity_label"
+                android:background="@color/units_table_row1"
+                android:singleLine="true"
+                android:text="@string/humidity_value"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="@string/pressure_value"
-            android:id="@+id/pressure_value"
-            android:singleLine="true"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:background="@color/units_table_row1"
-            android:textAlignment="center"
-            android:layout_alignTop="@+id/pressure_label"
-            android:layout_toEndOf="@+id/pressure_label" />
-    </RelativeLayout><![CDATA[
+            <TextView
+                android:id="@+id/windspeed_label"
+                android:layout_width="260dp"
+                android:layout_height="30dp"
+                android:layout_alignLeft="@+id/humidity_label"
+                android:layout_alignStart="@+id/humidity_label"
+                android:layout_below="@+id/humidity_label"
+                android:background="@color/color_main"
+                android:paddingLeft="8sp"
+                android:paddingTop="2sp"
+                android:singleLine="false"
+                android:text="@string/windspeed_label"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/windspeed_value"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/humidity_label"
+                android:layout_toEndOf="@+id/windspeed_label"
+                android:layout_toRightOf="@+id/windspeed_label"
+                android:background="@color/color_main"
+                android:singleLine="true"
+                android:text="@string/windspeed"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/pressure_label"
+                android:layout_width="230dp"
+                android:layout_height="30dp"
+                android:layout_alignLeft="@+id/windspeed_label"
+                android:layout_alignStart="@+id/windspeed_label"
+                android:layout_below="@+id/windspeed_label"
+                android:background="@color/units_table_row1"
+                android:paddingLeft="8sp"
+                android:paddingTop="2sp"
+                android:singleLine="false"
+                android:text="@string/pressure_label"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/pressure_value"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/pressure_label"
+                android:layout_toEndOf="@+id/pressure_label"
+                android:background="@color/units_table_row1"
+                android:singleLine="true"
+                android:text="@string/pressure_value"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </ScrollView>
+    <![CDATA[
+
+
 
 
 
     />
+
 
 
 ]]>

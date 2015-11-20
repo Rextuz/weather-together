@@ -1,4 +1,8 @@
-package com.rextuz.weathertogether;
+package com.rextuz.weathertogether.services;
+
+import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
+import com.rextuz.weathertogether.Enitites.WeatherEntity;
+import com.rextuz.weathertogether.misc.WeatherTask;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
