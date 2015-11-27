@@ -6,19 +6,28 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.Enitites.WeatherEntity;
+import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.services.OpenWeatherMap;
 import com.rextuz.weathertogether.services.WeatherServiceInterface;
 import com.rextuz.weathertogether.services.YahooWeather;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    List<View> layouts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +47,70 @@ public class MainActivity extends AppCompatActivity {
         getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Delete previous layouts
+                for (View layout : layouts)
+                    ((ViewManager) layout.getParent()).removeView(layout);
+                layouts.clear();
+
+                // Get city from text view
                 String place = editTextPlace.getText().toString();
 
-                // TODO: call getters with units
                 // Get temperature units
                 SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
                 String units = sf.getString("temperature_units", "C");
 
-                // Get weather from Yahoo and show it
-                WeatherServiceInterface yahooWeather = new YahooWeather();
-                WeatherEntity weather = yahooWeather.getCurrentWeather(place);
+                // Create services
+                List<WeatherServiceInterface> services = new ArrayList<>();
+                if (sf.getBoolean("yahoo", true))
+                    services.add(new YahooWeather());
+                if (sf.getBoolean("openweather", true))
+                    services.add(new OpenWeatherMap());
+
+                // Get weather
+                List<WeatherEntity> entities = new ArrayList<>();
+                for (WeatherServiceInterface service : services) {
+                    WeatherEntity entity = service.getCurrentWeather(place);
+                    if (entity != null)
+                        entities.add(entity);
+                }
+
+                // Add layouts
+                LayoutInflater layoutInflater = getLayoutInflater();
+                for (int i = 0; i < entities.size(); i++) {
+                    View serviceLayout = layoutInflater.inflate(R.layout.weather_output, null, false);
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.services);
+                    linearLayout.addView(serviceLayout);
+                    layouts.add(serviceLayout);
+                }
+
+                // Temperature
+                String temperature = units;
+                if (!units.equals("K"))
+                    temperature = "°" + temperature;
+
+                // Fill data
+                for (int i = 0; i < entities.size(); i++) {
+                    WeatherEntity entity = entities.get(i);
+                    if (entity != null) {
+                        View layout = layouts.get(i);
+                        ((TextView) layout.findViewById(R.id.city)).setText(entity.getCity());
+                        ((TextView) layout.findViewById(R.id.temperature)).setText(entity.getTemperature(units) + temperature);
+
+                        String countryRegion = entity.getCountry();
+                        if (entity.getRegion() != null)
+                            if (!entity.getRegion().isEmpty())
+                                countryRegion += ", " + entity.getRegion();
+                        ((TextView) layout.findViewById(R.id.textView)).setText(countryRegion);
+                        ((TextView) layout.findViewById(R.id.humanity_value)).setText(entity.getHumidity() + "%");
+                        ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed("m/s") + " " + "m/s");
+                        ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure("mmHg") + " " + "mmHg");
+                    } else {
+                        entities.remove(i);
+                    }
+                }
+
+                // TODO: Usless data invisibility. Loading animations.
+                findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
 
                 /*
                 List<ShortWeatherEntity> list = yahooWeather.getWeatherForecast(place);
@@ -56,25 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 WeatherEntity weather2 = openWeatherMap.getCurrentWeather(place);
                 List<ShortWeatherEntity> list2 = openWeatherMap.getWeatherForecast(place);
                 */
-
-                ((TextView) findViewById(R.id.city)).setText(weather.getCity());
-
-                // Temperature
-                String temperature = units;
-                if (!units.equals("K"))
-                    temperature = "°" + temperature;
-                ((TextView) findViewById(R.id.temperature)).setText(weather.getTemperature(units) + temperature);
-
-                String countryRegion = weather.getCountry();
-                if (!weather.getRegion().isEmpty())
-                    countryRegion += ", " + weather.getRegion();
-                ((TextView) findViewById(R.id.textView)).setText(countryRegion);
-                ((TextView) findViewById(R.id.humanity_value)).setText(weather.getHumidity() + "%");
-                ((TextView) findViewById(R.id.windspeed_value)).setText(weather.getSpeed("m/s") + " " + "m/s");
-                ((TextView) findViewById(R.id.pressure_value)).setText(weather.getPressure("mmHg") + " " + "mmHg");
-
-                // TODO: Usless data invisibility. Loading animations.
-                findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
     }
