@@ -2,9 +2,9 @@ package com.rextuz.weathertogether.services;
 
 import android.net.Uri;
 
-import com.rextuz.weathertogether.Enitites.WeatherEntity;
+import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.misc.WeatherTask;
-import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
+import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

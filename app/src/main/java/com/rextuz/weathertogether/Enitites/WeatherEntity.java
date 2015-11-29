@@ -1,4 +1,4 @@
-package com.rextuz.weathertogether.Enitites;
+package com.rextuz.weathertogether.enitites;
 
 public class WeatherEntity {
     //location

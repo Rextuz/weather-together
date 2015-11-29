@@ -59,5 +59,14 @@ public class SettingsActivity extends AppCompatActivity {
                 sf.edit().putBoolean("openweather", b).apply();
             }
         });
+
+        Switch worldWeatherSwitch = (Switch) findViewById(R.id.worldweather_switch);
+        worldWeatherSwitch.setChecked(sf.getBoolean("worldweather", true));
+        worldWeatherSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                sf.edit().putBoolean("worldweather", b).apply();
+            }
+        });
     }
 }

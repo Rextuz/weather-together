@@ -16,8 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.rextuz.weathertogether.Enitites.WeatherEntity;
-import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
+import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.services.OpenWeatherMap;
 import com.rextuz.weathertogether.services.WeatherServiceInterface;
@@ -67,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                     services.add(new YahooWeather());
                 if (sf.getBoolean("openweather", true))
                     services.add(new OpenWeatherMap());
+                if (sf.getBoolean("worldweather", true))
+                    services.add(new WorldWeatherOnline());
 
                 // Get weather
                 List<WeatherEntity> entities = new ArrayList<>();
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // TODO: Usless data invisibility. Loading animations.
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
 
                 /*

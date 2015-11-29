@@ -1,7 +1,7 @@
 package com.rextuz.weathertogether.services;
 
-import com.rextuz.weathertogether.Enitites.WeatherEntity;
-import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
+import com.rextuz.weathertogether.enitites.WeatherEntity;
+import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 
 import java.util.List;
 
