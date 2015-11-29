@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rextuz.weathertogether.Enitites.WeatherEntity;
+import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
 import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.services.OpenWeatherMap;
 import com.rextuz.weathertogether.services.WeatherServiceInterface;
+import com.rextuz.weathertogether.services.WorldWeatherOnline;
 import com.rextuz.weathertogether.services.YahooWeather;
 
 import java.util.ArrayList;

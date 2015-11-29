@@ -53,37 +53,37 @@ public class WeatherEntity {
     public String getDirection() {
         String windDirection;
         if (((direction >= 0) && (direction <= 11.25)) || ((direction > 348.75) && (direction <= 360)));
-            windDirection = "S";
-        if ((direction > 11.25) && (direction <= 33.75))
-            windDirection = "SSW";
-        if ((direction > 33.75) && (direction <= 56.25))
-            windDirection = "SW";
-        if ((direction > 56.25) && (direction <= 78.75))
-            windDirection = "WSW";
-        if ((direction > 78.75) && (direction <= 101.25))
-            windDirection = "W";
-        if ((direction > 101.25) && (direction <= 123.75))
-            windDirection = "WNW";
-        if ((direction > 123.75) && (direction <= 146.25))
-            windDirection = "NW";
-        if ((direction > 146.25) && (direction <= 168.75))
-            windDirection = "NNW";
-        if ((direction > 168.75) && (direction <= 191.25))
             windDirection = "N";
-        if ((direction > 191.25) && (direction <= 213.75))
+        if ((direction > 11.25) && (direction <= 33.75))
             windDirection = "NNE";
-        if ((direction > 213.75) && (direction <= 236.25))
+        if ((direction > 33.75) && (direction <= 56.25))
             windDirection = "NE";
-        if ((direction > 236.25) && (direction <= 258.75))
+        if ((direction > 56.25) && (direction <= 78.75))
             windDirection = "ENE";
-        if ((direction > 258.75) && (direction <= 281.25))
+        if ((direction > 78.75) && (direction <= 101.25))
             windDirection = "E";
-        if ((direction > 281.25) && (direction <= 303.75))
+        if ((direction > 101.25) && (direction <= 123.75))
             windDirection = "ESE";
-        if ((direction > 303.75) && (direction <= 326.25))
+        if ((direction > 123.75) && (direction <= 146.25))
             windDirection = "SE";
-        if ((direction > 326.25) && (direction <= 348.75))
+        if ((direction > 146.25) && (direction <= 168.75))
             windDirection = "SSE";
+        if ((direction > 168.75) && (direction <= 191.25))
+            windDirection = "S";
+        if ((direction > 191.25) && (direction <= 213.75))
+            windDirection = "SSW";
+        if ((direction > 213.75) && (direction <= 236.25))
+            windDirection = "SW";
+        if ((direction > 236.25) && (direction <= 258.75))
+            windDirection = "WSW";
+        if ((direction > 258.75) && (direction <= 281.25))
+            windDirection = "W";
+        if ((direction > 281.25) && (direction <= 303.75))
+            windDirection = "WNW";
+        if ((direction > 303.75) && (direction <= 326.25))
+            windDirection = "NW";
+        if ((direction > 326.25) && (direction <= 348.75))
+            windDirection = "NNW";
         return windDirection;
     }
 

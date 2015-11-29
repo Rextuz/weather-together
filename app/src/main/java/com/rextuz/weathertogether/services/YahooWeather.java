@@ -9,8 +9,12 @@ import com.rextuz.weathertogether.Enitites.ShortWeatherEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class YahooWeather implements WeatherServiceInterface {
     //all data
@@ -70,12 +74,22 @@ public class YahooWeather implements WeatherServiceInterface {
 
             //astronomy
             JSONObject astronomy = channel.optJSONObject("astronomy");
-            sunrise = astronomy.optString("sunrise");
-            sunset = astronomy.optString("sunset");
+            String string = astronomy.optString("sunrise");
+            DateFormat format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+            Date time = format.parse(string);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+            sunrise = sdf.format(time);
+            string = astronomy.optString("sunset");
+            time = format.parse(string);
+            sunset = sdf.format(time);
 
             //condition
             JSONObject condition = channel.optJSONObject("item").optJSONObject("condition");
-            date = condition.optString("date");
+            string = condition.optString("date");
+            format = new SimpleDateFormat("EEE, d MMM yyyy h:mm a z", Locale.ENGLISH);
+            time = format.parse(string);
+            sdf = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
+            date = sdf.format(time);
             temperature = condition.optInt("temp");
             text = condition.optString("text");
 
