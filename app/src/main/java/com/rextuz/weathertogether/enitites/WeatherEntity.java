@@ -51,8 +51,8 @@ public class WeatherEntity {
     }
 
     public String getDirection() {
-        String windDirection;
-        if (((direction >= 0) && (direction <= 11.25)) || ((direction > 348.75) && (direction <= 360)));
+        String windDirection = null;
+        if (((direction >= 0) && (direction <= 11.25)) || ((direction > 348.75) && (direction <= 360)))
             windDirection = "N";
         if ((direction > 11.25) && (direction <= 33.75))
             windDirection = "NNE";

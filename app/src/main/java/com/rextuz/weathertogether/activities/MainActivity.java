@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.services.OpenWeatherMap;
 import com.rextuz.weathertogether.services.WeatherServiceInterface;
 import com.rextuz.weathertogether.services.WorldWeatherOnline;
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         ((TextView) layout.findViewById(R.id.humanity_value)).setText(entity.getHumidity() + "%");
                         ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed("m/s") + " " + "m/s");
                         ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure("mmHg") + " " + "mmHg");
+                        parseText(entity.getText(), layout);
                     } else {
                         entities.remove(i);
                     }
@@ -123,6 +126,23 @@ public class MainActivity extends AppCompatActivity {
                 */
             }
         });
+    }
+
+    private void parseText(String text, View layout) {
+        text = text.toLowerCase();
+        ImageView image = (ImageView) layout.findViewById(R.id.imageView);
+        if (text.contains("snow"))
+            image.setImageResource(R.drawable.snow);
+        else if (text.contains("storm"))
+            image.setImageResource(R.drawable.storm);
+        else if (text.contains("sun") || text.contains("fair") || text.contains("clear"))
+            image.setImageResource(R.drawable.suny);
+        else if (text.contains("cloud"))
+            image.setImageResource(R.drawable.windy);
+        else if (text.contains("rain"))
+            image.setImageResource(R.drawable.rain);
+        else
+            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Override
