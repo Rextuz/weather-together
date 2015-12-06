@@ -13,6 +13,7 @@
     <string name="pressure_value">1024 mbar</string>
     <string name="temperature_units">Temperature units</string>
     <string name="units">Units</string>
+    <string name="nameOfService">Service Name</string>
     <string-array name="temperature_units" >
         <item>C</item>
         <item>F</item>

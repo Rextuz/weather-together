@@ -4,45 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignBottom="@+id/pressure_label"
-    android:layout_below="@+id/editText">
+    android:layout_below="@+id/editText"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:gravity="fill_horizontal">
 
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_below="@+id/city"
         android:layout_marginTop="67dp"
         android:text="@string/gradus"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="122sp" />
+        android:textSize="100sp" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/windy"
+        android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/temperature"
         android:layout_alignTop="@+id/temperature"
-        android:layout_toRightOf="@+id/temperature"
-        android:src="@drawable/windy" />
+        android:layout_alignParentStart="false"
+        android:layout_alignRight="@+id/forecast" />
 
     <TextView
         android:id="@+id/city"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignLeft="@+id/temperature"
-        android:layout_alignStart="@+id/temperature"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="27dp"
         android:singleLine="false"
         android:text="Chosen City"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/holo_blue_dark"
         android:textIsSelectable="true"
-        android:textSize="35sp" />
+        android:textSize="35sp"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView"
@@ -57,7 +62,7 @@
 
     <TextView
         android:id="@+id/humidity_label"
-        android:layout_width="260dp"
+        android:layout_width="240dp"
         android:layout_height="30dp"
         android:layout_alignLeft="@+id/temperature"
         android:layout_alignParentBottom="false"
@@ -70,29 +75,31 @@
         android:singleLine="false"
         android:text="@string/humidity_label"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignRight="@+id/temperature"
+        android:layout_alignEnd="@+id/temperature" />
 
     <TextView
         android:id="@+id/humanity_value"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_alignBottom="@+id/humidity_label"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/humidity_label"
-        android:layout_toRightOf="@+id/humidity_label"
         android:background="@color/units_table_row1"
         android:singleLine="true"
         android:text="@string/humidity_value"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_toEndOf="@+id/humidity_label"
+        android:layout_toRightOf="@+id/forecast" />
 
     <TextView
         android:id="@+id/windspeed_label"
-        android:layout_width="260dp"
+        android:layout_width="240dp"
         android:layout_height="30dp"
-        android:layout_alignLeft="@+id/humidity_label"
+        android:layout_alignLeft="@+id/temperature"
         android:layout_alignStart="@+id/humidity_label"
         android:layout_below="@+id/humidity_label"
         android:background="@color/color_main"
@@ -101,49 +108,82 @@
         android:singleLine="false"
         android:text="@string/windspeed_label"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignRight="@+id/humidity_label"
+        android:layout_alignEnd="@+id/humidity_label" />
 
     <TextView
         android:id="@+id/windspeed_value"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_below="@+id/humidity_label"
-        android:layout_toEndOf="@+id/windspeed_label"
-        android:layout_toRightOf="@+id/windspeed_label"
         android:background="@color/color_main"
         android:singleLine="true"
         android:text="@string/windspeed"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/humidity_label"
+        android:layout_toRightOf="@+id/humidity_label" />
 
     <TextView
-        android:id="@+id/pressure_label"
-        android:layout_width="230dp"
+        android:id="@+id/pressure_value"
+        android:layout_width="120dp"
         android:layout_height="30dp"
-        android:layout_alignLeft="@+id/windspeed_label"
-        android:layout_alignStart="@+id/windspeed_label"
-        android:layout_below="@+id/windspeed_label"
+        android:background="@color/units_table_row1"
+        android:singleLine="true"
+        android:text="@string/pressure_value"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_below="@+id/windspeed_value"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/windspeed_label"
+        android:layout_toEndOf="@+id/windspeed_label" />
+
+    <TextView
+        android:id="@+id/nameOfService"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:singleLine="false"
+        android:text="@string/nameOfService"
+        android:textAlignment="textStart"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/units_table_row1"
+        android:textIsSelectable="true"
+        android:textSize="25sp"
+        android:layout_above="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/forecast"
+        android:layout_below="@+id/pressure_value"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp">
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="240dp"
+        android:layout_height="30dp"
         android:background="@color/units_table_row1"
         android:paddingLeft="8sp"
         android:paddingTop="2sp"
         android:singleLine="false"
         android:text="@string/pressure_label"
         android:textColor="#000000"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/pressure_value"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/pressure_label"
-        android:layout_toEndOf="@+id/pressure_label"
-        android:layout_toRightOf="@+id/pressure_label"
-        android:background="@color/units_table_row1"
-        android:singleLine="true"
-        android:text="@string/pressure_value"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_below="@+id/windspeed_label"
+        android:layout_alignLeft="@+id/forecast"
+        android:layout_alignStart="@+id/forecast"
+        android:layout_alignRight="@+id/windspeed_label"
+        android:layout_alignEnd="@+id/windspeed_label" />
 
 </RelativeLayout>
