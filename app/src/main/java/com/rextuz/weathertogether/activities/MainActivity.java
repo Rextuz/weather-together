@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.info_layout).setVisibility(View.INVISIBLE);
 
         // Place text edit
-        final EditText editTextPlace = (EditText) findViewById(R.id.editText);
+        final EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
 
         // Get weather button
         Button getWeatherButton = (Button) findViewById(R.id.button);
@@ -75,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 List<WeatherEntity> entities = new ArrayList<>();
                 for (WeatherServiceInterface service : services) {
                     WeatherEntity entity = service.getCurrentWeather(place);
-                    if (entity != null)
-                        entities.add(entity);
+                    entities.add(entity);
                 }
 
                 // Add layouts
@@ -96,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                 // Fill data
                 for (int i = 0; i < entities.size(); i++) {
                     WeatherEntity entity = entities.get(i);
-                    if (entity != null) {
-                        View layout = layouts.get(i);
+                    View layout = layouts.get(i);
+                    TextView serviceName = (TextView) layout.findViewById(R.id.service_name);
+                    serviceName.setText(entity.getServiceName());
+                    if (!entity.isNodata()) {
                         ((TextView) layout.findViewById(R.id.city)).setText(entity.getCity());
                         ((TextView) layout.findViewById(R.id.temperature)).setText(entity.getTemperature(units) + temperature);
 
@@ -111,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
                         ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure("mmHg") + " " + "mmHg");
                         parseText(entity.getText(), layout);
                     } else {
-                        entities.remove(i);
+                        layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+                        layout.findViewById(R.id.weather_output).setVisibility(View.GONE);
                     }
                 }
-
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
 
                 /*
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        EditText editTextPlace = (EditText) findViewById(R.id.editText);
+        EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
         Button getWeatherButton = (Button) findViewById(R.id.button);
         if (!editTextPlace.getText().toString().isEmpty())
             getWeatherButton.callOnClick();

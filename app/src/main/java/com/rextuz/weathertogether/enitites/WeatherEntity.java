@@ -1,6 +1,14 @@
 package com.rextuz.weathertogether.enitites;
 
 public class WeatherEntity {
+    // Service name
+    private String serviceName;
+    private boolean nodata = false;
+
+    public boolean isNodata() {
+        return nodata;
+    }
+
     //location
     private String city;
     private String country;
@@ -23,7 +31,13 @@ public class WeatherEntity {
     private int temperature;
     private String text;
 
-    public WeatherEntity(String city, String country, String region, int direction, int speed, int humidity, int pressure, String sunrise, String sunset, String date, int temperature, String text) {
+    public WeatherEntity(String serviceName) {
+        this.serviceName = serviceName;
+        nodata = true;
+    }
+
+    public WeatherEntity(String serviceName, String city, String country, String region, int direction, int speed, int humidity, int pressure, String sunrise, String sunset, String date, int temperature, String text) {
+        this.serviceName = serviceName;
         this.city = city;
         this.country = country;
         this.region = region;
@@ -88,7 +102,7 @@ public class WeatherEntity {
     }
 
     public int getSpeed(String unit) {
-        switch(unit) {
+        switch (unit) {
             //Kilometers per hour
             case "km/h":
                 return speed;
@@ -108,7 +122,7 @@ public class WeatherEntity {
     }
 
     public int getPressure(String unit) {
-        switch(unit) {
+        switch (unit) {
             //Millibars
             case "mb":
                 return pressure;
@@ -156,5 +170,9 @@ public class WeatherEntity {
 
     public String getText() {
         return text;
+    }
+
+    public String getServiceName() {
+        return serviceName;
     }
 }

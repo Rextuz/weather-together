@@ -19,6 +19,7 @@ import java.util.Locale;
 public class YahooWeather implements WeatherServiceInterface {
     //all data
     private String result;
+    private final String SERVICE_NAME = "Yahoo Weather";
 
     @Override
     public WeatherEntity getCurrentWeather(final String place) {
@@ -109,13 +110,13 @@ public class YahooWeather implements WeatherServiceInterface {
             System.out.println(text);
             */
 
-            return new WeatherEntity(city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
+            return new WeatherEntity(SERVICE_NAME, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return new WeatherEntity(SERVICE_NAME);
     }
 
     @Override
