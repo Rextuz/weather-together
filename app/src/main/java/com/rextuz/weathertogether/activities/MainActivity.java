@@ -107,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
                             if (!entity.getRegion().isEmpty())
                                 countryRegion += ", " + entity.getRegion();
                         ((TextView) layout.findViewById(R.id.textView)).setText(countryRegion);
-                        ((TextView) layout.findViewById(R.id.humanity_value)).setText(entity.getHumidity() + "%");
+                        ((TextView) layout.findViewById(R.id.humidity_value)).setText(entity.getHumidity() + "%");
                         ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed("m/s") + " " + "m/s");
+                        ((TextView) layout.findViewById(R.id.winddirection_value)).setText(entity.getDirection());
                         ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure("mmHg") + " " + "mmHg");
+                        ((TextView) layout.findViewById(R.id.condition_value)).setText(entity.getText());
                         parseText(entity.getText(), layout);
                     } else {
                         layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);

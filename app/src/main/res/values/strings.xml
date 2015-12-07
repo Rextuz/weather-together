@@ -7,6 +7,9 @@
     <string name="city">Chosen City</string>
     <string name="humidity_label">Humidity</string>
     <string name="humidity_value">70%</string>
+    <string name="winddirection_label">Wind Direction</string>
+    <string name="winddirection_value">S</string>
+    <string name="condition_value">Snow</string>
     <string name="windspeed_label">Wind Speed</string>
     <string name="windspeed">2 m/s</string>
     <string name="pressure_label">Pressure</string>

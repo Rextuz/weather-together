@@ -87,8 +87,9 @@ public class YahooWeather implements WeatherServiceInterface {
             //condition
             JSONObject condition = channel.optJSONObject("item").optJSONObject("condition");
             string = condition.optString("date");
-            format = new SimpleDateFormat("EEE, d MMM yyyy h:mm a z", Locale.ENGLISH);
-            time = format.parse(string);
+            String[] split = string.split(" [0-9]:");
+            format = new SimpleDateFormat("EEE, dd MMM yyyy", Locale.ENGLISH);
+            time = format.parse(split[0]);
             sdf = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
             date = sdf.format(time);
             temperature = condition.optInt("temp");
