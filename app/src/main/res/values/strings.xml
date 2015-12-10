@@ -14,12 +14,20 @@
     <string name="windspeed">2 m/s</string>
     <string name="pressure_label">Pressure</string>
     <string name="pressure_value">1024 mbar</string>
-    <string name="temperature_units">Temperature units</string>
-    <string name="units">Units</string>
     <string name="nameOfService">Service Name</string>
     <string-array name="temperature_units" >
         <item>C</item>
         <item>F</item>
         <item>K</item>
+    </string-array>
+    <string-array name="speed_units" >
+        <item>m/s</item>
+        <item>km/h</item>
+        <item>mph</item>
+    </string-array>
+    <string-array name="pressure_units" >
+        <item>mmHg</item>
+        <item>in</item>
+        <item>mb</item>
     </string-array>
 </resources>

@@ -20,25 +20,70 @@ public class SettingsActivity extends AppCompatActivity {
 
         final SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
 
-        RadioGroup unitsRadio = (RadioGroup) findViewById(R.id.unitsRadio);
-        String units = sf.getString("temperature_units", "C");
-        switch (units) {
+        RadioGroup temperatureRadio = (RadioGroup) findViewById(R.id.temperatureRadio);
+        RadioGroup speedRadio = (RadioGroup) findViewById(R.id.speedRadio);
+        RadioGroup pressureRadio = (RadioGroup) findViewById(R.id.pressureRadio);
+        String temperatureUnit = sf.getString("temperature_units", "C");
+        String speedUnit = sf.getString("speed_units", "m/s");
+        String pressureUnit = sf.getString("pressure_units", "mmHg");
+
+        switch (temperatureUnit) {
             case "F":
-                unitsRadio.check(R.id.fRadioButton);
+                temperatureRadio.check(R.id.fRadioButton);
                 break;
             case "K":
-                unitsRadio.check(R.id.kRadioButton);
+                temperatureRadio.check(R.id.kRadioButton);
                 break;
             default:
-                unitsRadio.check(R.id.cRadioButton);
+                temperatureRadio.check(R.id.cRadioButton);
         }
 
-        unitsRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        temperatureRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int id = radioGroup.getCheckedRadioButtonId();
                 RadioButton btn = (RadioButton) radioGroup.findViewById(id);
                 sf.edit().putString("temperature_units", btn.getText().toString()).apply();
+            }
+        });
+
+        switch (speedUnit) {
+            case "km/h":
+                speedRadio.check(R.id.kmRadioButton);
+                break;
+            case "mph":
+                speedRadio.check(R.id.mphRadioButton);
+                break;
+            default:
+                speedRadio.check(R.id.mRadioButton);
+        }
+
+        speedRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int id = radioGroup.getCheckedRadioButtonId();
+                RadioButton btn = (RadioButton) radioGroup.findViewById(id);
+                sf.edit().putString("speed_units", btn.getText().toString()).apply();
+            }
+        });
+
+        switch (pressureUnit) {
+            case "in":
+                pressureRadio.check(R.id.inRadioButton);
+                break;
+            case "mb":
+                pressureRadio.check(R.id.mbRadioButton);
+                break;
+            default:
+                pressureRadio.check(R.id.mmHgRadioButton);
+        }
+
+        pressureRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int id = radioGroup.getCheckedRadioButtonId();
+                RadioButton btn = (RadioButton) radioGroup.findViewById(id);
+                sf.edit().putString("pressure_units", btn.getText().toString()).apply();
             }
         });
 

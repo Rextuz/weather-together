@@ -6,36 +6,137 @@
     android:orientation="vertical"
     tools:context="com.rextuz.weathertogether.activities.SettingsActivity">
 
-    <TextView
-        android:id="@+id/textViewUnits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/units"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <RadioGroup
-        android:id="@+id/unitsRadio"
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/cRadioButton"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="C" />
+            android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/fRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="F" />
+            <TextView
+                android:id="@+id/textViewUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:text="Temperature" />
 
-        <RadioButton
-            android:id="@+id/kRadioButton"
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:text="Speed" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:text="Pressure" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="K" />
-    </RadioGroup>
+            android:layout_height="match_parent">
+
+            <RadioGroup
+                android:id="@+id/temperatureRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/cRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="C" />
+
+                <RadioButton
+                    android:id="@+id/fRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="F" />
+
+                <RadioButton
+                    android:id="@+id/kRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="K" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/speedRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/mRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="m/s" />
+
+                <RadioButton
+                    android:id="@+id/kmRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="km/h" />
+
+                <RadioButton
+                    android:id="@+id/mphRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="mph" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/pressureRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/mmHgRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="mmHg" />
+
+                <RadioButton
+                    android:id="@+id/inRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="in" />
+
+                <RadioButton
+                    android:id="@+id/mbRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="mb" />
+            </RadioGroup>
+
+        </TableRow>
+
+    </TableLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -49,18 +150,21 @@
                 android:id="@+id/yahoo_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:text="Yahoo" />
 
             <Switch
                 android:id="@+id/openweather_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:text="OpenWeather" />
 
             <Switch
                 android:id="@+id/worldweather_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:text="WorldWeather" />
 
         </LinearLayout>

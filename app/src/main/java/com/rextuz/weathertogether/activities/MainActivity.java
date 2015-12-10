@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get temperature units
                 SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
-                String units = sf.getString("temperature_units", "C");
+                String temperatureUnit = sf.getString("temperature_units", "C");
+                String speedUnit = sf.getString("speed_units", "m/s");
+                String pressureUnit = sf.getString("pressure_units", "mmHg");
 
                 // Create services
                 List<WeatherServiceInterface> services = new ArrayList<>();
@@ -88,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Temperature
-                String temperature = units;
-                if (!units.equals("K"))
+                String temperature = temperatureUnit;
+                if (!temperatureUnit.equals("K"))
                     temperature = "°" + temperature;
 
                 // Fill data
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     serviceName.setText(entity.getServiceName());
                     if (!entity.isNodata()) {
                         ((TextView) layout.findViewById(R.id.city)).setText(entity.getCity());
-                        ((TextView) layout.findViewById(R.id.temperature)).setText(entity.getTemperature(units) + temperature);
+                        ((TextView) layout.findViewById(R.id.temperature)).setText(entity.getTemperature(temperatureUnit) + temperature);
 
                         String countryRegion = entity.getCountry();
                         if (entity.getRegion() != null)
@@ -108,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
                                 countryRegion += ", " + entity.getRegion();
                         ((TextView) layout.findViewById(R.id.textView)).setText(countryRegion);
                         ((TextView) layout.findViewById(R.id.humidity_value)).setText(entity.getHumidity() + "%");
-                        ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed("m/s") + " " + "m/s");
+                        ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed(speedUnit) + " " + speedUnit);
                         ((TextView) layout.findViewById(R.id.winddirection_value)).setText(entity.getDirection());
-                        ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure("mmHg") + " " + "mmHg");
+                        ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure(pressureUnit) + " " + pressureUnit);
                         ((TextView) layout.findViewById(R.id.condition_value)).setText(entity.getText());
                         parseText(entity.getText(), layout);
                     } else {
