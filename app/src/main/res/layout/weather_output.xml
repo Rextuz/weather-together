@@ -30,10 +30,8 @@
             android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:singleLine="false"
-            android:text="Chosen City"
+            android:text="@string/city"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/holo_blue_dark"
@@ -44,12 +42,13 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/region"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/condition_value"
+            android:id="@+id/forecast_condition_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/condition_value"
@@ -69,19 +68,20 @@
                     android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/gradus"
                     android:layout_weight="1"
+                    android:text="@string/gradus"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@android:color/holo_blue_dark"
                     android:textSize="50sp" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/condition_image"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:contentDescription="@string/condition_value"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:src="@drawable/windy" />
             </TableRow>
 
@@ -145,7 +145,7 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/winddirection_label"
@@ -203,18 +203,17 @@
 
         </TableLayout>
 
-        <TextView
-            android:id="@+id/no_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="35sp"
-            android:visibility="gone" />
-
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/na"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="35sp"
+        android:visibility="gone" />
 
 </LinearLayout>

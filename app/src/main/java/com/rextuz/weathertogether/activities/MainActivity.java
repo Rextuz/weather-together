@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.services.OpenWeatherMap;
 import com.rextuz.weathertogether.services.WeatherServiceInterface;
@@ -113,41 +113,49 @@ public class MainActivity extends AppCompatActivity {
                         ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed(speedUnit) + " " + speedUnit);
                         ((TextView) layout.findViewById(R.id.winddirection_value)).setText(entity.getDirection());
                         ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure(pressureUnit) + " " + pressureUnit);
-                        ((TextView) layout.findViewById(R.id.condition_value)).setText(entity.getText());
-                        parseText(entity.getText(), layout);
+                        ((TextView) layout.findViewById(R.id.forecast_condition_value)).setText(entity.getText());
+                        parseText(entity.getText(), layout, R.id.condition_image);
+
+                        // Add forecast
+                        LinearLayout main = (LinearLayout) layout.findViewById(R.id.weather_output_main);
+                        List<ShortWeatherEntity> forecast = services.get(i).getWeatherForecast(place);
+                        while (!forecast.isEmpty()) {
+                            View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, null, false);
+                            main.addView(forecastLayoutEntry);
+                            ShortWeatherEntity forecastEntity = forecast.remove(0);
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_date)).setText(forecastEntity.getDate());
+                            String forecastTemperature = temperatureUnit;
+                            if (!temperatureUnit.equals("K"))
+                                forecastTemperature = "°" + forecastTemperature;
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_hi)).setText(forecastEntity.getHigh(temperatureUnit) + forecastTemperature);
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(forecastEntity.getLow(temperatureUnit) + forecastTemperature);
+                            String conditionText = forecastEntity.getText();
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_condition_value)).setText(conditionText);
+                            parseText(conditionText, forecastLayoutEntry, R.id.forecast_condition_image);
+                        }
                     } else {
                         layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                         layout.findViewById(R.id.weather_output).setVisibility(View.GONE);
                     }
                 }
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
-
-                /*
-                List<ShortWeatherEntity> list = yahooWeather.getWeatherForecast(place);
-
-                WeatherServiceInterface openWeatherMap = new OpenWeatherMap();
-                WeatherEntity weather2 = openWeatherMap.getCurrentWeather(place);
-                List<ShortWeatherEntity> list2 = openWeatherMap.getWeatherForecast(place);
-                */
             }
         });
     }
 
-    private void parseText(String text, View layout) {
+    private void parseText(String text, View layout, int id) {
         text = text.toLowerCase();
-        ImageView image = (ImageView) layout.findViewById(R.id.imageView);
+        ImageView image = (ImageView) layout.findViewById(id);
         if (text.contains("snow"))
             image.setImageResource(R.drawable.snow);
         else if (text.contains("storm"))
             image.setImageResource(R.drawable.storm);
         else if (text.contains("sun") || text.contains("fair") || text.contains("clear"))
             image.setImageResource(R.drawable.suny);
-        else if (text.contains("cloud"))
+        else if (text.contains("cloud") || text.contains("overcast"))
             image.setImageResource(R.drawable.windy);
         else if (text.contains("rain"))
             image.setImageResource(R.drawable.rain);
-        else
-            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Override
