@@ -30,7 +30,22 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<View> layouts = new ArrayList<>();
+    private List<View> layouts = new ArrayList<>();
+
+    public static int parseText(String text) {
+        text = text.toLowerCase();
+        if (text.contains("snow"))
+            return R.drawable.snow;
+        else if (text.contains("storm"))
+            return R.drawable.storm;
+        else if (text.contains("sun") || text.contains("fair") || text.contains("clear"))
+            return R.drawable.suny;
+        else if (text.contains("cloud") || text.contains("overcast"))
+            return R.drawable.windy;
+        else if (text.contains("rain"))
+            return R.drawable.rain;
+        return R.drawable.windy;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                 // Add layouts
                 LayoutInflater layoutInflater = getLayoutInflater();
                 for (int i = 0; i < entities.size(); i++) {
-                    View serviceLayout = layoutInflater.inflate(R.layout.weather_output, null, false);
                     LinearLayout linearLayout = (LinearLayout) findViewById(R.id.services);
+                    View serviceLayout = layoutInflater.inflate(R.layout.weather_output, linearLayout, false);
                     linearLayout.addView(serviceLayout);
                     layouts.add(serviceLayout);
                 }
@@ -101,37 +116,51 @@ public class MainActivity extends AppCompatActivity {
                     TextView serviceName = (TextView) layout.findViewById(R.id.service_name);
                     serviceName.setText(entity.getServiceName());
                     if (!entity.isNodata()) {
+                        String s;
                         ((TextView) layout.findViewById(R.id.city)).setText(entity.getCity());
-                        ((TextView) layout.findViewById(R.id.temperature)).setText(entity.getTemperature(temperatureUnit) + temperature);
-
+                        s = entity.getTemperature(temperatureUnit) + temperature;
+                        ((TextView) layout.findViewById(R.id.temperature)).setText(s);
                         String countryRegion = entity.getCountry();
                         if (entity.getRegion() != null)
                             if (!entity.getRegion().isEmpty())
                                 countryRegion += ", " + entity.getRegion();
                         ((TextView) layout.findViewById(R.id.textView)).setText(countryRegion);
-                        ((TextView) layout.findViewById(R.id.humidity_value)).setText(entity.getHumidity() + "%");
-                        ((TextView) layout.findViewById(R.id.windspeed_value)).setText(entity.getSpeed(speedUnit) + " " + speedUnit);
+                        s = entity.getHumidity() + "%";
+                        ((TextView) layout.findViewById(R.id.humidity_value)).setText(s);
+                        s = entity.getSpeed(speedUnit) + " " + speedUnit;
+                        ((TextView) layout.findViewById(R.id.windspeed_value)).setText(s);
                         ((TextView) layout.findViewById(R.id.winddirection_value)).setText(entity.getDirection());
-                        ((TextView) layout.findViewById(R.id.pressure_value)).setText(entity.getPressure(pressureUnit) + " " + pressureUnit);
+                        s = entity.getPressure(pressureUnit) + " " + pressureUnit;
+                        ((TextView) layout.findViewById(R.id.pressure_value)).setText(s);
                         ((TextView) layout.findViewById(R.id.forecast_condition_value)).setText(entity.getText());
-                        parseText(entity.getText(), layout, R.id.condition_image);
+                        {
+                            int imageId = parseText(entity.getText());
+                            ImageView image = (ImageView) layout.findViewById(R.id.condition_image);
+                            image.setImageResource(imageId);
+                        }
 
                         // Add forecast
                         LinearLayout main = (LinearLayout) layout.findViewById(R.id.weather_output_main);
                         List<ShortWeatherEntity> forecast = services.get(i).getWeatherForecast(place);
                         while (!forecast.isEmpty()) {
-                            View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, null, false);
+                            View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, main, false);
                             main.addView(forecastLayoutEntry);
                             ShortWeatherEntity forecastEntity = forecast.remove(0);
                             ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_date)).setText(forecastEntity.getDate());
                             String forecastTemperature = temperatureUnit;
                             if (!temperatureUnit.equals("K"))
                                 forecastTemperature = "°" + forecastTemperature;
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_hi)).setText(forecastEntity.getHigh(temperatureUnit) + forecastTemperature);
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(forecastEntity.getLow(temperatureUnit) + forecastTemperature);
+                            s = forecastEntity.getHigh(temperatureUnit) + forecastTemperature;
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_hi)).setText(s);
+                            s = forecastEntity.getLow(temperatureUnit) + forecastTemperature;
+                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(s);
                             String conditionText = forecastEntity.getText();
                             ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_condition_value)).setText(conditionText);
-                            parseText(conditionText, forecastLayoutEntry, R.id.forecast_condition_image);
+                            {
+                                int imageId = parseText(conditionText);
+                                ImageView image = (ImageView) forecastLayoutEntry.findViewById(R.id.forecast_condition_image);
+                                image.setImageResource(imageId);
+                            }
                         }
                     } else {
                         layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
@@ -141,21 +170,6 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private void parseText(String text, View layout, int id) {
-        text = text.toLowerCase();
-        ImageView image = (ImageView) layout.findViewById(id);
-        if (text.contains("snow"))
-            image.setImageResource(R.drawable.snow);
-        else if (text.contains("storm"))
-            image.setImageResource(R.drawable.storm);
-        else if (text.contains("sun") || text.contains("fair") || text.contains("clear"))
-            image.setImageResource(R.drawable.suny);
-        else if (text.contains("cloud") || text.contains("overcast"))
-            image.setImageResource(R.drawable.windy);
-        else if (text.contains("rain"))
-            image.setImageResource(R.drawable.rain);
     }
 
     @Override

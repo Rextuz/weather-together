@@ -1,78 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:stretchColumns="1">
+    android:layout_height="180dp">
 
-    <TableRow
-        android:layout_width="0dp"
-        android:layout_height="wrap_content">
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/forecast_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_span="2"
-            android:text="@string/saturday"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="20sp" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/units_table_row2"
+        android:stretchColumns="1">
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/forecast_hi"
+        <TableRow
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gradus"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#AA0000"
-            android:textSize="40sp" />
+            android:background="@color/color_main">
 
-        <ImageView
-            android:id="@+id/forecast_condition_image"
+            <TextView
+                android:id="@+id/forecast_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_span="2"
+                android:text="@string/saturday"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="20sp" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:contentDescription="@string/condition_value"
-            android:src="@drawable/windy" />
+            android:layout_height="match_parent">
 
-    </TableRow>
+            <TextView
+                android:id="@+id/forecast_hi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gradus"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#AA0000"
+                android:textSize="40sp" />
 
-    <TableRow
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/forecast_condition_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:contentDescription="@string/condition_value"
+                android:src="@drawable/windy" />
 
-        <TextView
-            android:id="@+id/forecast_lo"
+        </TableRow>
+
+        <TableRow
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gradus"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000088"
-            android:textSize="40sp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/forecast_condition_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/condition_value"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/forecast_lo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gradus"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000088"
+                android:textSize="40sp" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/forecast_condition_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/condition_value"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="20sp" />
 
-</TableLayout>
+        </TableRow>
+
+    </TableLayout>
+</FrameLayout>
