@@ -15,34 +15,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class OpenWeatherMap implements WeatherServiceInterface {
-    //all data
-    private String result;
-    private final String SERVICE_NAME = "Open Weather Map";
+public class OpenWeatherMap extends WeatherService {
+
+    public OpenWeatherMap() {
+        super("Open Weather Map");
+    }
 
     @Override
     public WeatherEntity getCurrentWeather(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
-
-        //wind
-        int direction;
-        int speed;
-
-        //atmosphere
-        int humidity;
-        int pressure;
-
-        //astronomy
-        String sunrise;
-        String sunset;
-
-        //condition
-        String date;
-        int temperature;
-        String text;
 
         try {
             String endpoint = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=20b5ef928730077e4626a33fbdf5e355", Uri.encode(place));
@@ -69,60 +49,35 @@ public class OpenWeatherMap implements WeatherServiceInterface {
 
             //astronomy
             long unixSeconds = data.optJSONObject("sys").optInt("sunrise");
-            Date time = new Date(unixSeconds*1000L);
+            Date time = new Date(unixSeconds * 1000L);
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
             sunrise = sdf.format(time);
             unixSeconds = data.optJSONObject("sys").optInt("sunset");
-            time = new Date(unixSeconds*1000L);
+            time = new Date(unixSeconds * 1000L);
             sunset = sdf.format(time);
 
             //condition
             unixSeconds = data.optInt("dt");
-            time = new Date(unixSeconds*1000L);
+            time = new Date(unixSeconds * 1000L);
             sdf = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
             date = sdf.format(time);
             temperature = (int) Math.round(data.optJSONObject("main").optDouble("temp"));
             text = data.optJSONArray("weather").optJSONObject(0).optString("main");
 
-            /*
-            System.out.println(result);
-            System.out.println(city);
-            System.out.println(country);
-            System.out.println(direction);
-            System.out.println(speed);
-            System.out.println(humidity);
-            System.out.println(pressure);
-            System.out.println(sunrise);
-            System.out.println(sunset);
-            System.out.println(date);
-            System.out.println(temperature);
-            System.out.println(text);
-            */
-
-            return new WeatherEntity(SERVICE_NAME, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
+            return new WeatherEntity(serviceName, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new WeatherEntity(SERVICE_NAME);
+        return new WeatherEntity(serviceName);
     }
 
     @Override
     public List<ShortWeatherEntity> getWeatherForecast(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
-
-        //forecast
-        String date;
-        String text;
-        int high;
-        int low;
 
         //list with forecast
-        List<ShortWeatherEntity> list = new ArrayList<ShortWeatherEntity>();
+        List<ShortWeatherEntity> list = new ArrayList<>();
 
         try {
             String endpoint = String.format("http://api.openweathermap.org/data/2.5/forecast/daily?q=%s&units=metric&cnt=5&appid=20b5ef928730077e4626a33fbdf5e355", Uri.encode(place));
@@ -144,22 +99,12 @@ public class OpenWeatherMap implements WeatherServiceInterface {
             for (int i = 0; i < forecast.length(); i++) {
                 JSONObject day = forecast.optJSONObject(i);
                 long unixSeconds = day.optInt("dt");
-                Date time = new Date(unixSeconds*1000L);
+                Date time = new Date(unixSeconds * 1000L);
                 SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
                 date = sdf.format(time);
                 text = day.optJSONArray("weather").optJSONObject(0).optString("main");
                 high = (int) Math.round(day.optJSONObject("temp").optDouble("max"));
                 low = (int) Math.round(day.optJSONObject("temp").optDouble("min"));
-
-                /*
-                System.out.println(i + " " + city);
-                System.out.println(i + " " + country);
-                System.out.println(i + " " + region);
-                System.out.println(i + " " + date);
-                System.out.println(i + " " + text);
-                System.out.println(i + " " + high);
-                System.out.println(i + " " + low);
-                */
 
                 list.add(i, new ShortWeatherEntity(city, country, region, date, text, high, low));
             }

@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class ParseTextAndroidUnitTest {
+public class ParseConditionAndroidUnitTest {
     public static final String TEST_STRING = "wind";
 
     @Test

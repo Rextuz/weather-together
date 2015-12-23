@@ -16,34 +16,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class YahooWeather implements WeatherServiceInterface {
-    //all data
-    private String result;
-    private final String SERVICE_NAME = "Yahoo Weather";
+public class YahooWeather extends WeatherService {
+
+    public YahooWeather() {
+        super("Yahoo Weather");
+    }
 
     @Override
     public WeatherEntity getCurrentWeather(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
-
-        //wind
-        int direction;
-        int speed;
-
-        //atmosphere
-        int humidity;
-        int pressure;
-
-        //astronomy
-        String sunrise;
-        String sunset;
-
-        //condition
-        String date;
-        int temperature;
-        String text;
 
         try {
             String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
@@ -111,30 +91,20 @@ public class YahooWeather implements WeatherServiceInterface {
             System.out.println(text);
             */
 
-            return new WeatherEntity(SERVICE_NAME, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
+            return new WeatherEntity(serviceName, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new WeatherEntity(SERVICE_NAME);
+        return new WeatherEntity(serviceName);
     }
 
     @Override
     public List<ShortWeatherEntity> getWeatherForecast(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
-
-        //forecast
-        String date;
-        String text;
-        int high;
-        int low;
 
         //list with forecast
-        List<ShortWeatherEntity> list = new ArrayList<ShortWeatherEntity>();
+        List<ShortWeatherEntity> list = new ArrayList<>();
 
         try {
             String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
@@ -162,16 +132,6 @@ public class YahooWeather implements WeatherServiceInterface {
                 text = day.optString("text");
                 high = day.optInt("high");
                 low = day.optInt("low");
-
-                /*
-                System.out.println(i + " " + city);
-                System.out.println(i + " " + country);
-                System.out.println(i + " " + region);
-                System.out.println(i + " " + date);
-                System.out.println(i + " " + text);
-                System.out.println(i + " " + high);
-                System.out.println(i + " " + low);
-                */
 
                 list.add(i, new ShortWeatherEntity(city, country, region, date, text, high, low));
             }

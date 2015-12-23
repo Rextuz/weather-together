@@ -21,7 +21,7 @@ import com.rextuz.weathertogether.R;
 import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.services.OpenWeatherMap;
-import com.rextuz.weathertogether.services.WeatherServiceInterface;
+import com.rextuz.weathertogether.services.WeatherService;
 import com.rextuz.weathertogether.services.WorldWeatherOnline;
 import com.rextuz.weathertogether.services.YahooWeather;
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 String pressureUnit = sf.getString("pressure_units", "mmHg");
 
                 // Create services
-                List<WeatherServiceInterface> services = new ArrayList<>();
+                List<WeatherService> services = new ArrayList<>();
                 if (sf.getBoolean("yahoo", true))
                     services.add(new YahooWeather());
                 if (sf.getBoolean("openweather", true))
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get weather
                 List<WeatherEntity> entities = new ArrayList<>();
-                for (WeatherServiceInterface service : services) {
+                for (WeatherService service : services) {
                     WeatherEntity entity = service.getCurrentWeather(place);
                     entities.add(entity);
                 }

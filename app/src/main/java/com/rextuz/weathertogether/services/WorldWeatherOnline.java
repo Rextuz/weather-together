@@ -16,34 +16,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class WorldWeatherOnline implements WeatherServiceInterface {
-    //all data
-    private String result;
-    private final String SERVICE_NAME = "World Weather Online";
+public class WorldWeatherOnline extends WeatherService {
+
+    public WorldWeatherOnline() {
+        super("World Weather Online");
+    }
 
     @Override
     public WeatherEntity getCurrentWeather(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
-
-        //wind
-        int direction;
-        int speed;
-
-        //atmosphere
-        int humidity;
-        int pressure;
-
-        //astronomy
-        String sunrise;
-        String sunset;
-
-        //condition
-        String date;
-        int temperature;
-        String text;
 
         try {
             String endpoint = String.format("http://api.worldweatheronline.com/free/v2/weather.ashx?key=7beb0ffc04cd0825e2dd7da093fd8&q=%s&num_of_days=1&tp=24&format=json", Uri.encode(place));
@@ -56,22 +36,22 @@ public class WorldWeatherOnline implements WeatherServiceInterface {
             JSONObject data = new JSONObject(result);
             data = data.optJSONObject("data");
 
-            //location
+            // Location
             String location = data.optJSONArray("request").optJSONObject(0).optString("query");
             String[] split = location.split(", ");
             city = split[0];
             country = split[1];
             region = null;
 
-            //wind
+            // Wind
             direction = data.optJSONArray("current_condition").optJSONObject(0).optInt("winddirDegree");
             speed = data.optJSONArray("current_condition").optJSONObject(0).optInt("windspeedKmph");
 
-            //atmosphere
+            // Atmosphere
             humidity = data.optJSONArray("current_condition").optJSONObject(0).optInt("humidity");
             pressure = data.optJSONArray("current_condition").optJSONObject(0).optInt("pressure");
 
-            //astronomy
+            // Astronomy
             String string = data.optJSONArray("weather").optJSONObject(0).optJSONArray("astronomy").optJSONObject(0).optString("sunrise");
             DateFormat format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
             Date time = format.parse(string);
@@ -81,7 +61,7 @@ public class WorldWeatherOnline implements WeatherServiceInterface {
             time = format.parse(string);
             sunset = sdf.format(time);
 
-            //condition
+            // Condition
             string = data.optJSONArray("weather").optJSONObject(0).optString("date");
             format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             time = format.parse(string);
@@ -90,45 +70,20 @@ public class WorldWeatherOnline implements WeatherServiceInterface {
             temperature = data.optJSONArray("current_condition").optJSONObject(0).optInt("temp_C");
             text = data.optJSONArray("current_condition").optJSONObject(0).optJSONArray("weatherDesc").optJSONObject(0).optString("value");
 
-            /*
-            System.out.println(result);
-            System.out.println(city);
-            System.out.println(country);
-            System.out.println(direction);
-            System.out.println(speed);
-            System.out.println(humidity);
-            System.out.println(pressure);
-            System.out.println(sunrise);
-            System.out.println(sunset);
-            System.out.println(date);
-            System.out.println(temperature);
-            System.out.println(text);
-            */
-
-            return new WeatherEntity(SERVICE_NAME, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
+            return new WeatherEntity(serviceName, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new WeatherEntity(SERVICE_NAME);
+        return new WeatherEntity(serviceName);
     }
 
     @Override
     public List<ShortWeatherEntity> getWeatherForecast(final String place) {
-        //location
-        String city;
-        String country;
-        String region;
 
-        //forecast
-        String date;
-        String text;
-        int high;
-        int low;
-
-        //list with forecast
-        List<ShortWeatherEntity> list = new ArrayList<ShortWeatherEntity>();
+        // List with forecast
+        List<ShortWeatherEntity> list = new ArrayList<>();
 
         try {
             String endpoint = String.format("http://api.worldweatheronline.com/free/v2/weather.ashx?key=7beb0ffc04cd0825e2dd7da093fd8&q=%s&num_of_days=5&tp=24&cc=no&format=json", Uri.encode(place));
@@ -141,18 +96,18 @@ public class WorldWeatherOnline implements WeatherServiceInterface {
             JSONObject data = new JSONObject(result);
             data = data.optJSONObject("data");
 
-            //location
+            // Location
             String location = data.optJSONArray("request").optJSONObject(0).optString("query");
             String[] split = location.split(", ");
             city = split[0];
             country = split[1];
             region = null;
 
-            //forecast
+            // Forecast
             JSONArray forecast = data.optJSONArray("weather");
             for (int i = 0; i < forecast.length(); i++) {
                 JSONObject day = forecast.optJSONObject(i);
-                String string = day.optString("date");;
+                String string = day.optString("date");
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 Date time = format.parse(string);
                 SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
@@ -160,16 +115,6 @@ public class WorldWeatherOnline implements WeatherServiceInterface {
                 text = day.optJSONArray("hourly").optJSONObject(0).optJSONArray("weatherDesc").optJSONObject(0).optString("value");
                 high = day.optInt("maxtempC");
                 low = day.optInt("mintempC");
-
-                /*
-                System.out.println(i + " " + city);
-                System.out.println(i + " " + country);
-                System.out.println(i + " " + region);
-                System.out.println(i + " " + date);
-                System.out.println(i + " " + text);
-                System.out.println(i + " " + high);
-                System.out.println(i + " " + low);
-                */
 
                 list.add(i, new ShortWeatherEntity(city, country, region, date, text, high, low));
             }
