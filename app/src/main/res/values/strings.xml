@@ -40,4 +40,8 @@
     <string name="saturday">Saturday</string>
     <string name="region">Region</string>
     <string name="na">N/A</string>
+
+    <!-- AdMob -->
+    <!--<string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>-->
+    <string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>
 </resources>
