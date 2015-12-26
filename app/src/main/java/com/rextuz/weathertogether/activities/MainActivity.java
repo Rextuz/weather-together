@@ -33,6 +33,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<View> layouts = new ArrayList<>();
+    private List<WeatherEntity> entities = new ArrayList<>();
+    private String place;
+    private SharedPreferences sf;
+    private MainActivity activity = this;
 
     public static int parseText(String text) {
         text = text.toLowerCase();
@@ -49,12 +53,25 @@ public class MainActivity extends AppCompatActivity {
         return R.drawable.windy;
     }
 
+    private List<WeatherService> getServices() {
+        List<WeatherService> services = new ArrayList<>();
+        if (sf.getBoolean("yahoo", true))
+            services.add(new YahooWeather());
+        if (sf.getBoolean("openweather", true))
+            services.add(new OpenWeatherMap());
+        if (sf.getBoolean("worldweather", true))
+            services.add(new WorldWeatherOnline());
+        return services;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
 
         // AdMob
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -64,68 +81,94 @@ public class MainActivity extends AppCompatActivity {
         // Hide null weather
         findViewById(R.id.info_layout).setVisibility(View.INVISIBLE);
 
-        // Place text edit
-        final EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
-
         // Get weather button
-        Button getWeatherButton = (Button) findViewById(R.id.button);
+        Button getWeatherButton = (Button) findViewById(R.id.go_button);
         getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.onClick();
+                    }
+                }).start();
+            }
+        });
+    }
+
+    private void onClick() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 // Delete previous layouts
                 for (View layout : layouts)
                     ((ViewManager) layout.getParent()).removeView(layout);
                 layouts.clear();
 
                 // Get city from text view
-                String place = editTextPlace.getText().toString();
+                EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
+                place = editTextPlace.getText().toString();
 
-                // Get temperature units
-                SharedPreferences sf = getSharedPreferences("com.rextuz.weathertogether", Context.MODE_PRIVATE);
-                String temperatureUnit = sf.getString("temperature_units", "C");
-                String speedUnit = sf.getString("speed_units", "m/s");
-                String pressureUnit = sf.getString("pressure_units", "mmHg");
+                TextView loadingText = (TextView) findViewById(R.id.loadingText);
+                loadingText.setVisibility(View.VISIBLE);
+                Button goButton = (Button) findViewById(R.id.go_button);
+                goButton.setVisibility(View.GONE);
+            }
+        });
 
-                // Create services
-                List<WeatherService> services = new ArrayList<>();
-                if (sf.getBoolean("yahoo", true))
-                    services.add(new YahooWeather());
-                if (sf.getBoolean("openweather", true))
-                    services.add(new OpenWeatherMap());
-                if (sf.getBoolean("worldweather", true))
-                    services.add(new WorldWeatherOnline());
+        // Get temperature units
+        final String temperatureUnit = sf.getString("temperature_units", "C");
+        final String speedUnit = sf.getString("speed_units", "m/s");
+        final String pressureUnit = sf.getString("pressure_units", "mmHg");
 
-                // Get weather
-                List<WeatherEntity> entities = new ArrayList<>();
-                for (WeatherService service : services) {
-                    WeatherEntity entity = service.getCurrentWeather(place);
-                    entities.add(entity);
-                }
+        // Get enabled services
+        List<WeatherService> services = getServices();
+        int entitiesNumber = services.size();
 
-                // Add layouts
-                LayoutInflater layoutInflater = getLayoutInflater();
-                for (int i = 0; i < entities.size(); i++) {
-                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.services);
-                    View serviceLayout = layoutInflater.inflate(R.layout.weather_output, linearLayout, false);
+        // Get weather
+        for (WeatherService service : services) {
+            entities.add(service.getCurrentWeather(place));
+        }
+
+        // Add layouts
+        final LayoutInflater layoutInflater = getLayoutInflater();
+        for (int i = 0; i < entitiesNumber; i++) {
+            final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.services);
+            final View serviceLayout = layoutInflater.inflate(R.layout.weather_output, linearLayout, false);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     linearLayout.addView(serviceLayout);
-                    layouts.add(serviceLayout);
                 }
+            });
+            layouts.add(serviceLayout);
+        }
 
-                // Temperature
-                String temperature = temperatureUnit;
-                if (!temperatureUnit.equals("K"))
-                    temperature = "°" + temperature;
+        // Temperature
+        String temperature = temperatureUnit;
+        if (!temperatureUnit.equals("K"))
+            temperature = "°" + temperature;
 
-                // Fill data
-                for (int i = 0; i < entities.size(); i++) {
-                    WeatherEntity entity = entities.get(i);
-                    View layout = layouts.get(i);
-                    TextView serviceName = (TextView) layout.findViewById(R.id.service_name);
+        // Fill data
+        for (int i = 0; i < entitiesNumber; i++) {
+            final WeatherEntity entity = entities.get(i);
+            final View layout = layouts.get(i);
+            final TextView serviceName = (TextView) layout.findViewById(R.id.service_name);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
                     serviceName.setText(entity.getServiceName());
-                    if (!entity.isNodata()) {
+                }
+            });
+            if (!entity.isNodata()) {
+                final String finalTemperature = temperature;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
                         String s;
                         ((TextView) layout.findViewById(R.id.city)).setText(entity.getCity());
-                        s = entity.getTemperature(temperatureUnit) + temperature;
+                        s = entity.getTemperature(temperatureUnit) + finalTemperature;
                         ((TextView) layout.findViewById(R.id.temperature)).setText(s);
                         String countryRegion = entity.getCountry();
                         if (entity.getRegion() != null)
@@ -145,35 +188,56 @@ public class MainActivity extends AppCompatActivity {
                             ImageView image = (ImageView) layout.findViewById(R.id.condition_image);
                             image.setImageResource(imageId);
                         }
+                    }
+                });
 
-                        // Add forecast
-                        LinearLayout main = (LinearLayout) layout.findViewById(R.id.weather_output_main);
-                        List<ShortWeatherEntity> forecast = services.get(i).getWeatherForecast(place);
-                        while (!forecast.isEmpty()) {
-                            View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, main, false);
-                            main.addView(forecastLayoutEntry);
-                            ShortWeatherEntity forecastEntity = forecast.remove(0);
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_date)).setText(forecastEntity.getDate());
-                            String forecastTemperature = temperatureUnit;
-                            if (!temperatureUnit.equals("K"))
-                                forecastTemperature = "°" + forecastTemperature;
-                            s = forecastEntity.getHigh(temperatureUnit) + forecastTemperature;
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_hi)).setText(s);
-                            s = forecastEntity.getLow(temperatureUnit) + forecastTemperature;
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(s);
-                            String conditionText = forecastEntity.getText();
-                            ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_condition_value)).setText(conditionText);
-                            {
-                                int imageId = parseText(conditionText);
-                                ImageView image = (ImageView) forecastLayoutEntry.findViewById(R.id.forecast_condition_image);
-                                image.setImageResource(imageId);
+                // Add forecast
+                final LinearLayout main = (LinearLayout) layout.findViewById(R.id.weather_output_main);
+                final List<ShortWeatherEntity> forecast = services.get(i).getWeatherForecast(place);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (forecast != null)
+                            while (!forecast.isEmpty()) {
+                                String s;
+                                View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, main, false);
+                                main.addView(forecastLayoutEntry);
+                                ShortWeatherEntity forecastEntity = forecast.remove(0);
+                                ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_date)).setText(forecastEntity.getDate());
+                                String forecastTemperature = temperatureUnit;
+                                if (!temperatureUnit.equals("K"))
+                                    forecastTemperature = "°" + forecastTemperature;
+                                s = forecastEntity.getHigh(temperatureUnit) + forecastTemperature;
+                                ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_hi)).setText(s);
+                                s = forecastEntity.getLow(temperatureUnit) + forecastTemperature;
+                                ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(s);
+                                String conditionText = forecastEntity.getText();
+                                ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_condition_value)).setText(conditionText);
+                                {
+                                    int imageId = parseText(conditionText);
+                                    ImageView image = (ImageView) forecastLayoutEntry.findViewById(R.id.forecast_condition_image);
+                                    image.setImageResource(imageId);
+                                }
                             }
-                        }
-                    } else {
+                    }
+                });
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
                         layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
                         layout.findViewById(R.id.weather_output).setVisibility(View.GONE);
                     }
-                }
+                });
+            }
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView loadingText = (TextView) findViewById(R.id.loadingText);
+                loadingText.setVisibility(View.GONE);
+                Button goButton = (Button) findViewById(R.id.go_button);
+                goButton.setVisibility(View.VISIBLE);
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
@@ -189,10 +253,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
-        Button getWeatherButton = (Button) findViewById(R.id.button);
+       /* EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
+        Button getWeatherButton = (Button) findViewById(R.id.go_button);
         if (!editTextPlace.getText().toString().isEmpty())
-            getWeatherButton.callOnClick();
+            getWeatherButton.callOnClick();*/
     }
 
     @Override

@@ -7,9 +7,9 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="?attr/actionBarSize"
         android:layout_above="@+id/adView"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:paddingTop="?attr/actionBarSize">
 
         <TableRow
             android:layout_width="match_parent"
@@ -27,16 +27,25 @@
 
             <EditText
                 android:id="@+id/editPlace"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/color_main"
                 android:inputType="text" />
 
+            <TextView
+                android:id="@+id/loadingText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_blue_dark"
+                android:text="@string/loading"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone" />
+
             <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:id="@+id/go_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@android:color/holo_blue_dark"
                 android:text="@string/go" />
         </TableRow>

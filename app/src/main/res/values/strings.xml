@@ -44,4 +44,5 @@
     <!-- AdMob -->
     <!--<string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>-->
     <string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>
+    <string name="loading">Loading</string>
 </resources>
