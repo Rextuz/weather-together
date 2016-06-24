@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<View> layouts = new ArrayList<>();
     private List<WeatherEntity> entities = new ArrayList<>();
+    private List<View> forecastsViews = new ArrayList<>();
     private String place;
     private SharedPreferences sf;
     private MainActivity activity = this;
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         int entitiesNumber = services.size();
 
         // Get weather
+        entities.clear();
         for (WeatherService service : services) {
             entities.add(service.getCurrentWeather(place));
         }
@@ -194,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
                 // Add forecast
                 final LinearLayout main = (LinearLayout) layout.findViewById(R.id.weather_output_main);
                 final List<ShortWeatherEntity> forecast = services.get(i).getWeatherForecast(place);
+
+                // Clear previous forecasts
+                for (View v : forecastsViews)
+                    main.removeView(v);
+                forecastsViews.clear();
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -202,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                 String s;
                                 View forecastLayoutEntry = layoutInflater.inflate(R.layout.forecast_entry, main, false);
                                 main.addView(forecastLayoutEntry);
+                                forecastsViews.add(forecastLayoutEntry);
                                 ShortWeatherEntity forecastEntity = forecast.remove(0);
                                 ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_date)).setText(forecastEntity.getDate());
                                 String forecastTemperature = temperatureUnit;
