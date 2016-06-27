@@ -35,9 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private List<View> layouts = new ArrayList<>();
     private List<WeatherEntity> entities = new ArrayList<>();
     private List<View> forecastsViews = new ArrayList<>();
+    private List<View> serviceViews = new ArrayList<>();
     private String place;
     private SharedPreferences sf;
     private MainActivity activity = this;
+    private int tabIndex = 0;
+
+    Button nextServiceButton;
+    Button prevServiceButton;
 
     public static int parseText(String text) {
         text = text.toLowerCase();
@@ -82,6 +87,25 @@ public class MainActivity extends AppCompatActivity {
         // Hide null weather
         findViewById(R.id.info_layout).setVisibility(View.INVISIBLE);
 
+        //Next and prev services
+        nextServiceButton = (Button) findViewById(R.id.next_service);
+        prevServiceButton = (Button) findViewById(R.id.prev_service);
+        prevServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchTab(tabIndex - 1);
+                clickableCheck();
+            }
+        });
+        nextServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchTab(tabIndex + 1);
+                clickableCheck();
+            }
+        });
+        clickableCheck();
+
         // Get weather button
         Button getWeatherButton = (Button) findViewById(R.id.go_button);
         getWeatherButton.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +115,44 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         activity.onClick();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                clickableCheck();
+                            }
+                        });
                     }
                 }).start();
             }
         });
+    }
+
+    private void clickableCheck() {
+        int size = serviceViews.size();
+        int last = size - 1;
+        int first = 0;
+        if (size < 2) {
+            prevServiceButton.setClickable(false);
+            nextServiceButton.setClickable(false);
+        } else {
+            if (tabIndex == last)
+                nextServiceButton.setClickable(false);
+            else
+                nextServiceButton.setClickable(true);
+
+            if (tabIndex == first)
+                prevServiceButton.setClickable(false);
+            else
+                prevServiceButton.setClickable(true);
+        }
+    }
+
+    private void switchTab(int tabIndex) {
+        this.tabIndex = tabIndex;
+        for (int i = 0; i < serviceViews.size(); i++)
+            if (i == tabIndex)
+                serviceViews.get(i).setVisibility(View.VISIBLE);
+            else serviceViews.get(i).setVisibility(View.GONE);
     }
 
     private void onClick() {
@@ -135,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Add layouts
         final LayoutInflater layoutInflater = getLayoutInflater();
+        serviceViews.clear();
         for (int i = 0; i < entitiesNumber; i++) {
             final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.services);
             final View serviceLayout = layoutInflater.inflate(R.layout.weather_output, linearLayout, false);
@@ -145,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             layouts.add(serviceLayout);
+            serviceViews.add(serviceLayout);
+            if (i != tabIndex)
+                serviceLayout.setVisibility(View.GONE);
         }
 
         // Temperature
@@ -262,17 +324,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       /* EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
+        tabIndex = 0;
+        EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
         Button getWeatherButton = (Button) findViewById(R.id.go_button);
         if (!editTextPlace.getText().toString().isEmpty())
-            getWeatherButton.callOnClick();*/
+            getWeatherButton.callOnClick();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_settings:
