@@ -33,15 +33,15 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/forecast_hi"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="50"
                 android:text="@string/gradus"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -50,24 +50,24 @@
 
             <ImageView
                 android:id="@+id/forecast_condition_image"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="50"
                 android:contentDescription="@string/condition_value"
                 android:src="@drawable/windy" />
 
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/forecast_lo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="50"
                 android:text="@string/gradus"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -76,15 +76,16 @@
 
             <TextView
                 android:id="@+id/forecast_condition_value"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_weight="50"
                 android:text="@string/condition_value"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="20sp" />
 
-        </TableRow>
+        </LinearLayout>
 
     </TableLayout>
 </FrameLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_table"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/units_table_row2">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/editPlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/color_main"
+            android:inputType="text" />
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/go_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/go" />
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+    </TableRow>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/units_table_row2"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/prev_service"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="50"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/previous_service" />
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/next_service"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="50"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/next_service" />
+
+        <Space
+            android:layout_width="25dp"
+            android:layout_height="match_parent" />
+
+    </TableRow>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+
+</TableLayout>

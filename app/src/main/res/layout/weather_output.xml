@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/weather_output_main"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/layout"
     android:orientation="vertical"
@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/service_name"
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/color_main"
         android:singleLine="false"
@@ -68,7 +68,7 @@
                     android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="50"
                     android:text="@string/gradus"
                     android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -79,9 +79,9 @@
                     android:id="@+id/condition_image"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:contentDescription="@string/condition_value"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="50"
+                    android:contentDescription="@string/condition_value"
                     android:src="@drawable/windy" />
             </TableRow>
 

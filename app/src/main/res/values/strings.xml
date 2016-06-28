@@ -45,4 +45,6 @@
     <!--<string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>-->
     <string name="banner_ad_unit_id">ca-app-pub-9399084835921779/8846820647</string>
     <string name="loading">Loading</string>
+    <string name="previous_service">Previous service</string>
+    <string name="next_service">Next service</string>
 </resources>

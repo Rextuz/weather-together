@@ -1,108 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/adView"
-        android:layout_alignParentTop="true"
-        android:paddingTop="?attr/actionBarSize">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:id="@+id/editPlace"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/color_main"
-                android:inputType="text" />
-
-            <TextView
-                android:id="@+id/loadingText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_dark"
-                android:text="@string/loading"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/go_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_blue_dark"
-                android:text="@string/go" />
-        </TableRow>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/prev_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:text="Previous service"/>
-
-            <Button
-                android:id="@+id/next_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:text="Next service"/>
-
-        </LinearLayout>
-
-        <ScrollView
-            android:id="@+id/info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/services"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-            </HorizontalScrollView>
-        </ScrollView>
-
-    </TableLayout>
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:orientation="vertical">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:fillViewport="false"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
-</RelativeLayout>
+
+    <include layout="@layout/search_header" />
+
+    <include layout="@layout/services_layout" />
+
+</LinearLayout>

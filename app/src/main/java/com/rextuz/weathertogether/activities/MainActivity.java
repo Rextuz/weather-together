@@ -169,10 +169,9 @@ public class MainActivity extends AppCompatActivity {
                 EditText editTextPlace = (EditText) findViewById(R.id.editPlace);
                 place = editTextPlace.getText().toString();
 
-                TextView loadingText = (TextView) findViewById(R.id.loadingText);
-                loadingText.setVisibility(View.VISIBLE);
                 Button goButton = (Button) findViewById(R.id.go_button);
-                goButton.setVisibility(View.GONE);
+                goButton.setText("Loading");
+                goButton.setClickable(false);
             }
         });
 
@@ -247,11 +246,8 @@ public class MainActivity extends AppCompatActivity {
                         s = entity.getPressure(pressureUnit) + " " + pressureUnit;
                         ((TextView) layout.findViewById(R.id.pressure_value)).setText(s);
                         ((TextView) layout.findViewById(R.id.forecast_condition_value)).setText(entity.getText());
-                        {
-                            int imageId = parseText(entity.getText());
-                            ImageView image = (ImageView) layout.findViewById(R.id.condition_image);
-                            image.setImageResource(imageId);
-                        }
+                        ImageView image = (ImageView) layout.findViewById(R.id.condition_image);
+                        image.setImageResource(parseText(entity.getText()));
                     }
                 });
 
@@ -284,11 +280,8 @@ public class MainActivity extends AppCompatActivity {
                                 ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_lo)).setText(s);
                                 String conditionText = forecastEntity.getText();
                                 ((TextView) forecastLayoutEntry.findViewById(R.id.forecast_condition_value)).setText(conditionText);
-                                {
-                                    int imageId = parseText(conditionText);
-                                    ImageView image = (ImageView) forecastLayoutEntry.findViewById(R.id.forecast_condition_image);
-                                    image.setImageResource(imageId);
-                                }
+                                ImageView image = (ImageView) forecastLayoutEntry.findViewById(R.id.forecast_condition_image);
+                                image.setImageResource(parseText(conditionText));
                             }
                     }
                 });
@@ -305,10 +298,9 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView loadingText = (TextView) findViewById(R.id.loadingText);
-                loadingText.setVisibility(View.GONE);
                 Button goButton = (Button) findViewById(R.id.go_button);
-                goButton.setVisibility(View.VISIBLE);
+                goButton.setText("Go!");
+                goButton.setClickable(true);
                 findViewById(R.id.info_layout).setVisibility(View.VISIBLE);
             }
         });
