@@ -8,16 +8,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class WeatherTask extends AsyncTask<Void, Void, String> {
+public class WeatherTask {
 
-    private String request;
-
-    public WeatherTask(String task) {
-        request = task;
-    }
-
-    @Override
-    protected String doInBackground(Void... params) {
+    public static String getWeather(String request) {
         String result = null;
         try {
             URL url = new URL(request);
@@ -35,4 +28,5 @@ public class WeatherTask extends AsyncTask<Void, Void, String> {
         }
         return result;
     }
+
 }

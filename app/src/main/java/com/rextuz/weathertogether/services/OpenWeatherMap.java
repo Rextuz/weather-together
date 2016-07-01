@@ -26,7 +26,7 @@ public class OpenWeatherMap extends WeatherService {
 
         try {
             String endpoint = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=20b5ef928730077e4626a33fbdf5e355", Uri.encode(place));
-            result = new WeatherTask(endpoint).execute().get();
+            result = WeatherTask.getWeather(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class OpenWeatherMap extends WeatherService {
 
         try {
             String endpoint = String.format("http://api.openweathermap.org/data/2.5/forecast/daily?q=%s&units=metric&cnt=5&appid=20b5ef928730077e4626a33fbdf5e355", Uri.encode(place));
-            result = new WeatherTask(endpoint).execute().get();
+            result = WeatherTask.getWeather(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }

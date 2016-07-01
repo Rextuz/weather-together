@@ -9,6 +9,11 @@ import com.rextuz.weathertogether.misc.WeatherTask;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +32,7 @@ public class WorldWeatherOnline extends WeatherService {
 
         try {
             String endpoint = String.format("http://api.worldweatheronline.com/free/v2/weather.ashx?key=7beb0ffc04cd0825e2dd7da093fd8&q=%s&num_of_days=1&tp=24&format=json", Uri.encode(place));
-            result = new WeatherTask(endpoint).execute().get();
+            result = WeatherTask.getWeather(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +92,18 @@ public class WorldWeatherOnline extends WeatherService {
 
         try {
             String endpoint = String.format("http://api.worldweatheronline.com/free/v2/weather.ashx?key=7beb0ffc04cd0825e2dd7da093fd8&q=%s&num_of_days=5&tp=24&cc=no&format=json", Uri.encode(place));
-            result = new WeatherTask(endpoint).execute().get();
+            // result = new WeatherTask().execute(endpoint).get();
+            String request = endpoint;
+            URL url = new URL(request);
+            URLConnection connection = url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            result = builder.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }

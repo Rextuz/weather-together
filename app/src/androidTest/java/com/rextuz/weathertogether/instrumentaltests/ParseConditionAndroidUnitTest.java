@@ -2,7 +2,7 @@ package com.rextuz.weathertogether.instrumentaltests;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.rextuz.weathertogether.activities.MainActivity;
+import com.rextuz.weathertogether.managers.ImageManager;
 
 import junit.framework.Assert;
 
@@ -15,7 +15,7 @@ public class ParseConditionAndroidUnitTest {
 
     @Test
     public void checkOutputLegit() {
-        int imageID = MainActivity.parseText(TEST_STRING);
+        int imageID = ImageManager.parseText(TEST_STRING);
         Assert.assertNotNull(imageID);
         Assert.assertTrue(imageID > 0);
     }

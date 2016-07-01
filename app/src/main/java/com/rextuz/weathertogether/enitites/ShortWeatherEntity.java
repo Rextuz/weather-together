@@ -1,5 +1,14 @@
 package com.rextuz.weathertogether.enitites;
 
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.activities.MainActivity;
+import com.rextuz.weathertogether.managers.ImageManager;
+
 public class ShortWeatherEntity {
     //location
     private String city;
@@ -72,6 +81,35 @@ public class ShortWeatherEntity {
             default:
                 return low;
         }
-
     }
+
+    public void fillView(final View layout, final MainActivity activity) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Get preferences
+                SharedPreferences sp = activity.sp;
+
+                // Date
+                ((TextView) layout.findViewById(R.id.forecast_date)).setText(getDate());
+
+                // Temperature
+                String temperatureUnit = sp.getString("temperature_units", "C");
+                String forecastTemperature = temperatureUnit;
+                if (!temperatureUnit.equals("K"))
+                    forecastTemperature = "°" + forecastTemperature;
+                String s = getHigh(temperatureUnit) + forecastTemperature;
+                ((TextView) activity.findViewById(R.id.forecast_hi)).setText(s);
+                s = getLow(temperatureUnit) + forecastTemperature;
+                ((TextView) layout.findViewById(R.id.forecast_lo)).setText(s);
+
+                // Condition
+                String conditionText = getText();
+                ((TextView) layout.findViewById(R.id.forecast_condition_value)).setText(conditionText);
+                ImageView image = (ImageView) layout.findViewById(R.id.forecast_condition_image);
+                image.setImageResource(ImageManager.parseText(conditionText));
+            }
+        });
+    }
+
 }

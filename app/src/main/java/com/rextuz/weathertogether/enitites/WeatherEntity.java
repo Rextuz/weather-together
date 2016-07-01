@@ -1,31 +1,31 @@
 package com.rextuz.weathertogether.enitites;
 
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.rextuz.weathertogether.R;
+import com.rextuz.weathertogether.activities.MainActivity;
+import com.rextuz.weathertogether.managers.ImageManager;
+
 public class WeatherEntity {
     // Service name
     private String serviceName;
     private boolean nodata = false;
-
-    public boolean isNodata() {
-        return nodata;
-    }
-
     //location
     private String city;
     private String country;
     private String region;
-
     //wind
     private int direction;
     private int speed;
-
     //atmosphere
     private int humidity;
     private int pressure;
-
     //astronomy
     private String sunrise;
     private String sunset;
-
     //condition
     private String date;
     private int temperature;
@@ -50,6 +50,10 @@ public class WeatherEntity {
         this.date = date;
         this.temperature = temperature;
         this.text = text;
+    }
+
+    public boolean isNodata() {
+        return nodata;
     }
 
     public String getCity() {
@@ -174,5 +178,64 @@ public class WeatherEntity {
 
     public String getServiceName() {
         return serviceName;
+    }
+
+    public void fillView(final View layout, final MainActivity activity) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Get preferences
+                SharedPreferences sp = activity.sp;
+
+                // Service name
+                final TextView serviceName = (TextView) layout.findViewById(R.id.service_name);
+                serviceName.setText(getServiceName());
+
+                if (!isNodata())
+                // If there is data
+                {
+                    // City
+                    ((TextView) layout.findViewById(R.id.city)).setText(getCity());
+
+                    // Temperature
+                    String temperatureUnit = sp.getString("temperature_units", "C");
+                    String temperature = temperatureUnit;
+                    if (!temperatureUnit.equals("K"))
+                        temperature = "°" + temperature;
+                    String s = getTemperature(temperatureUnit) + temperature;
+                    ((TextView) layout.findViewById(R.id.temperature)).setText(s);
+
+                    // Region
+                    String countryRegion = getCountry();
+                    if (getRegion() != null)
+                        if (!getRegion().isEmpty())
+                            countryRegion += ", " + getRegion();
+                    ((TextView) layout.findViewById(R.id.textView)).setText(countryRegion);
+
+                    // Humidity
+                    s = getHumidity() + "%";
+                    ((TextView) layout.findViewById(R.id.humidity_value)).setText(s);
+
+                    // Wind
+                    String speedUnit = sp.getString("speed_units", "m/s");
+                    s = getSpeed(speedUnit) + " " + speedUnit;
+                    ((TextView) layout.findViewById(R.id.windspeed_value)).setText(s);
+                    ((TextView) layout.findViewById(R.id.winddirection_value)).setText(getDirection());
+
+                    // Pressure
+                    String pressureUnit = sp.getString("pressure_units", "mmHg");
+                    s = getPressure(pressureUnit) + " " + pressureUnit;
+                    ((TextView) layout.findViewById(R.id.pressure_value)).setText(s);
+
+                    // Condition
+                    ((TextView) layout.findViewById(R.id.forecast_condition_value)).setText(getText());
+                    ImageView image = (ImageView) layout.findViewById(R.id.condition_image);
+                    image.setImageResource(ImageManager.parseText(getText()));
+                } else {
+                    layout.findViewById(R.id.no_data).setVisibility(View.VISIBLE);
+                    layout.findViewById(R.id.weather_output).setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

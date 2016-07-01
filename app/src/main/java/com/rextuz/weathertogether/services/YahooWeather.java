@@ -2,13 +2,18 @@ package com.rextuz.weathertogether.services;
 
 import android.net.Uri;
 
+import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 import com.rextuz.weathertogether.enitites.WeatherEntity;
 import com.rextuz.weathertogether.misc.WeatherTask;
-import com.rextuz.weathertogether.enitites.ShortWeatherEntity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ public class YahooWeather extends WeatherService {
         try {
             String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
             String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
-            result = new WeatherTask(endpoint).execute().get();
+            result = WeatherTask.getWeather(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,22 +80,6 @@ public class YahooWeather extends WeatherService {
             temperature = condition.optInt("temp");
             text = condition.optString("text");
 
-            /*
-            System.out.println(result);
-            System.out.println(city);
-            System.out.println(country);
-            System.out.println(region);
-            System.out.println(direction);
-            System.out.println(speed);
-            System.out.println(humidity);
-            System.out.println(pressure);
-            System.out.println(sunrise);
-            System.out.println(sunset);
-            System.out.println(date);
-            System.out.println(temperature);
-            System.out.println(text);
-            */
-
             return new WeatherEntity(serviceName, city, country, region, direction, speed, humidity, pressure, sunrise, sunset, date, temperature, text);
 
         } catch (Exception e) {
@@ -109,7 +98,7 @@ public class YahooWeather extends WeatherService {
         try {
             String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u = 'c'", place);
             String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
-            result = new WeatherTask(endpoint).execute().get();
+            result = WeatherTask.getWeather(endpoint);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -27,7 +27,7 @@ public class AsyncTaskAndroidUnitTest {
     public void checkProcess() {
         String result = null;
         try {
-            result = new WeatherTask(request).execute().get();
+            result = WeatherTask.getWeather(request);
         } catch (Exception e) {
             Log.d("test", e.toString());
         }
